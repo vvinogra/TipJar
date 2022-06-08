@@ -1,2 +1,7 @@
 include ':app'
 rootProject.name = "TipJar"
+include ':features:database'
+include ':features:core'
+include ':features:navigation'
+include ':shared:viewbindingdelegate'
+include ':shared:ui'

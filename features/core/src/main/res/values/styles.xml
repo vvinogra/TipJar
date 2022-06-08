@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="TextAppearance.TipJar.Headline6" parent="TextAppearance.MaterialComponents.Headline6">
+        <item name="android:textSize">16sp</item>
+        <item name="android:lineSpacingExtra">3sp</item>
+        <item name="fontFamily">sans-serif-medium</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:letterSpacing">0.0125</item>
+    </style>
+
+    <style name="TextAppearance.TipJar.Headline5" parent="TextAppearance.MaterialComponents.Headline5">
+        <item name="android:textSize">24sp</item>
+        <item name="android:lineSpacingExtra">4sp</item>
+        <item name="fontFamily">sans-serif-medium</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:letterSpacing">0.0125</item>
+    </style>
+
+    <style name="TextAppearance.TipJar.Headline3" parent="TextAppearance.MaterialComponents.Headline3">
+        <item name="android:textSize">42sp</item>
+        <item name="android:lineSpacingExtra">7sp</item>
+        <item name="fontFamily">sans-serif-medium</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:letterSpacing">0.0125</item>
+    </style>
+
+    <style name="TextAppearance.TipJar.Headline3.BigCircularButton">
+        <item name="android:textColor">?colorPrimary</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.TipJar.BigCircularButton"
+        parent="ShapeAppearanceOverlay.Material3.Button" />
+
+    <style name="TextAppearance.TipJar.TextInputLayout.OutlinedBox" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+<!--        <item name="android:textColor">?colorSecondary</item>-->
+<!--        <item name="android:textAppearance">@style/TextAppearance.TipJar.Headline3</item>-->
+    </style>
+    
+    
+<!--    <style name=""-->
+
+</resources>

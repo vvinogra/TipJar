@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="divider_height">1dp</dimen>
+    <dimen name="margin_extra_small">2dp</dimen>
+    <dimen name="margin_small">4dp</dimen>
+    <dimen name="margin_slightly_small">6dp</dimen>
+    <dimen name="margin_standard">8dp</dimen>
+    <dimen name="margin_medium">12dp</dimen>
+    <dimen name="margin_medium_slightly_extra">14dp</dimen>
+    <dimen name="margin_medium_extra">16dp</dimen>
+    <dimen name="margin_slightly_large">20dp</dimen>
+    <dimen name="margin_large">24dp</dimen>
+    <dimen name="margin_large_extra">32dp</dimen>
+    <dimen name="margin_double">48dp</dimen>
+</resources>

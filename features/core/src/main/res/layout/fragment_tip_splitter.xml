@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/glBegin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="24dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/glEnd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="24dp" />
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:menu="@menu/tip_splitter_menu">
+
+            <ImageView
+                android:id="@+id/ivLogo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_tipjar_logo" />
+
+        </androidx.appcompat.widget.Toolbar>
+
+        <TextView
+            android:id="@+id/tvEnterAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/enter_amount"
+            android:textAppearance="@style/TextAppearance.TipJar.Headline6"
+            app:layout_constraintStart_toStartOf="@+id/glBegin"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+        <TextView
+            android:id="@+id/tvHowManyPeople"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="@string/how_many_people"
+            android:textAppearance="@style/TextAppearance.TipJar.Headline6"
+            app:layout_constraintStart_toStartOf="@+id/glBegin"
+            app:layout_constraintTop_toBottomOf="@+id/tlEnterAmount" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tlEnterAmount"
+            style="?textInputOutlinedStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:expandedHintEnabled="false"
+            app:hintAnimationEnabled="false"
+            app:hintEnabled="false"
+            app:layout_constraintEnd_toStartOf="@+id/glEnd"
+            app:layout_constraintStart_toStartOf="@+id/glBegin"
+            app:layout_constraintTop_toBottomOf="@+id/tvEnterAmount"
+            app:prefixText="$"
+            app:prefixTextAppearance="@style/TextAppearance.TipJar.Headline5"
+            app:prefixTextColor="?colorOnSecondary">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etEnterAmount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:hint="100.00"
+                android:inputType="number"
+                android:textAppearance="@style/TextAppearance.TipJar.Headline3" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/mcvAddPeople"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@+id/tvPeopleAmount"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toStartOf="@+id/glBegin"
+            app:layout_constraintTop_toBottomOf="@+id/tvHowManyPeople"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.TipJar.BigCircularButton"
+            app:strokeColor="@color/strokeColor"
+            app:strokeWidth="1dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginBottom="12dp"
+                android:maxLength="1"
+                android:text="+"
+                android:textAppearance="@style/TextAppearance.TipJar.Headline3.BigCircularButton" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <TextView
+            android:id="@+id/tvPeopleAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1"
+            android:textAppearance="@style/TextAppearance.TipJar.Headline3"
+            android:textColor="?colorOnPrimary"
+            app:layout_constraintBottom_toBottomOf="@+id/mcvAddPeople"
+            app:layout_constraintEnd_toStartOf="@+id/mcvMinusPeople"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toEndOf="@+id/mcvAddPeople"
+            app:layout_constraintTop_toTopOf="@+id/mcvAddPeople" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/mcvMinusPeople"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintBottom_toBottomOf="@+id/mcvAddPeople"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@+id/glEnd"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toEndOf="@+id/tvPeopleAmount"
+            app:layout_constraintTop_toTopOf="@+id/mcvAddPeople"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.TipJar.BigCircularButton"
+            app:strokeColor="@color/strokeColor"
+            app:strokeWidth="1dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginBottom="12dp"
+                android:maxLength="1"
+                android:text="-"
+                android:textAppearance="@style/TextAppearance.TipJar.Headline3.BigCircularButton" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <TextView
+            android:id="@+id/tvTipPercentage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="@string/tip"
+            android:textAppearance="@style/TextAppearance.TipJar.Headline6"
+            app:layout_constraintStart_toStartOf="@+id/glBegin"
+            app:layout_constraintTop_toBottomOf="@+id/barrier3" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tlTipPercentage"
+            style="?textInputOutlinedStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:expandedHintEnabled="false"
+            app:hintEnabled="false"
+            app:layout_constraintEnd_toStartOf="@+id/glEnd"
+            app:layout_constraintStart_toStartOf="@+id/glBegin"
+            app:layout_constraintTop_toBottomOf="@+id/tvTipPercentage"
+            app:suffixText="%"
+            app:suffixTextAppearance="@style/TextAppearance.TipJar.Headline5"
+            app:suffixTextColor="?colorOnSecondary">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etTipPercentage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:hint="10"
+                android:inputType="number"
+                android:textAppearance="@style/TextAppearance.TipJar.Headline3" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/tvTotalTip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="@string/total_tip"
+            android:textAppearance="@style/TextAppearance.TipJar.Headline6"
+            app:layout_constraintEnd_toStartOf="@+id/tvTotalTipAmount"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toStartOf="@+id/glBegin"
+            app:layout_constraintTop_toBottomOf="@+id/tlTipPercentage" />
+
+        <TextView
+            android:id="@+id/tvTotalTipAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.TipJar.Headline6"
+            app:layout_constraintBottom_toBottomOf="@+id/tvTotalTip"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/glEnd"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toEndOf="@+id/tvTotalTip"
+            app:layout_constraintTop_toTopOf="@+id/tvTotalTip"
+            tools:text="$10.00" />
+
+        <TextView
+            android:id="@+id/tvTipPerPersonAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.TipJar.Headline5"
+            app:layout_constraintBottom_toBottomOf="@+id/tvTipPerPerson"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/glEnd"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toEndOf="@+id/tvTipPerPerson"
+            app:layout_constraintTop_toTopOf="@+id/tvTipPerPerson"
+            tools:text="$10.00" />
+
+        <TextView
+            android:id="@+id/tvTipPerPerson"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="32dp"
+            android:text="@string/per_person"
+            android:textAppearance="@style/TextAppearance.TipJar.Headline5"
+            app:layout_constraintBottom_toTopOf="@+id/checkBox"
+            app:layout_constraintEnd_toStartOf="@+id/tvTipPerPersonAmount"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toStartOf="@+id/glBegin"
+            app:layout_constraintTop_toBottomOf="@+id/tvTotalTip"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <CheckBox
+            android:id="@+id/checkBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="@string/take_photo_of_receipt"
+            android:textAppearance="@style/TextAppearance.TipJar.Headline6"
+            app:layout_constraintBottom_toTopOf="@+id/btnSavePayment"
+            app:layout_constraintEnd_toStartOf="@+id/glEnd"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/glBegin"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            app:layout_constraintVertical_bias="1.0"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+        <Button
+            android:id="@+id/btnSavePayment"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:text="@string/save_payment"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/glEnd"
+            app:layout_constraintStart_toStartOf="@+id/glBegin"
+            app:layout_constraintTop_toBottomOf="@+id/checkBox"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="mcvAddPeople,tvPeopleAmount,mcvMinusPeople"
+            tools:layout_editor_absoluteY="731dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

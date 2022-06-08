@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--  Values from the https://material.io/resources/color/  -->
+    <color name="primaryColor">#f27a0a</color>
+    <color name="primaryLightColor">#ffaa45</color>
+    <color name="primaryDarkColor">#b94c00</color>
+    <color name="secondaryColor">#ffffff</color>
+    <color name="secondaryLightColor">#ffffff</color>
+    <color name="secondaryDarkColor">#cccccc</color>
+    <color name="primaryTextColor">#000000</color>
+    <color name="secondaryTextColor">#000000</color>
+
+    <color name="transparent">#00ffffff</color>
+
+    <color name="strokeColor">#D2D2D2</color>
+
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+</resources>
