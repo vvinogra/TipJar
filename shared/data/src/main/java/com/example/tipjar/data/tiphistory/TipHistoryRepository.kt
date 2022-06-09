@@ -14,14 +14,23 @@ internal class TipHistoryRepository @Inject constructor(
     private val tipHistoryLocalDataSource: TipHistoryLocalDataSource,
     private val iImageStorageManager: IImageStorageManager
 ) : ITipHistoryRepository {
-    override fun createTipHistoryRecord(totalAmount: Double, tipAmount: Double, receiptBitmap: Bitmap?) {
+    override fun createTipHistoryRecord(
+        totalAmount: Double,
+        tipAmount: Double,
+        currencyCode: String,
+        receiptBitmap: Bitmap?
+    ) {
         val savedId = tipHistoryLocalDataSource.create(
-            CreateTipHistoryEntityDto(totalAmount, tipAmount, Calendar.getInstance().timeInMillis)
+            CreateTipHistoryEntityDto(totalAmount, tipAmount, Calendar.getInstance().timeInMillis, currencyCode)
         )
 
         if (receiptBitmap != null) {
             iImageStorageManager.saveImage(receiptBitmap, savedId.toString())
         }
+    }
+
+    override fun getTipHistoryImagePathById(id: Int): String? {
+        return iImageStorageManager.getImagePath(id.toString())
     }
 
     override fun removeTipHistoryRecordById(id: Int) {

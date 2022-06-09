@@ -17,6 +17,7 @@ import com.example.tipjar.core.navigation.CoreNavigation
 import com.example.tipjar.core.ui.tipsplitter.model.TipSplitterData
 import com.example.tipjar.core.ui.tipsplitter.model.TipSplitterNavigation
 import com.example.tipjar.core.util.activityresult.OpenCameraContract
+import com.example.tipjar.shared.ui.base.fragment.BaseFragment
 import com.example.tipjar.shared.ui.extensions.*
 import com.example.tipjar.shared.ui.util.edittext.inputfilter.DecimalDigitsInputFilter
 import com.example.tipjar.shared.ui.util.edittext.inputfilter.MinMaxInputFilter
@@ -26,9 +27,8 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
 @AndroidEntryPoint
-class TipSplitterFragment : Fragment(R.layout.fragment_tip_splitter) {
+class TipSplitterFragment : BaseFragment(R.layout.fragment_tip_splitter) {
 
     @Inject
     lateinit var coreNavigation: CoreNavigation

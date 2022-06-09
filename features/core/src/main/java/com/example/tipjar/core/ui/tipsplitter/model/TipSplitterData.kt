@@ -11,8 +11,9 @@ data class TipSplitterData(
     val totalTip: Double,
     val perPersonTip: Double,
     val shouldTakePhotoOfReceipt: Boolean,
+    val currencyCode: String,
     val fractionalCurrencyDigits: Int,
     val currencySymbol: String,
-    @StringRes val toastMessage: Int? = null,
+    @StringRes val toastMessage: Int?,
     val navigationEvent: TipSplitterNavigation?
 )

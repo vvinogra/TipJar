@@ -34,8 +34,6 @@
     <style name="ShapeAppearanceOverlay.TipJar.BigCircularButton" parent="ShapeAppearanceOverlay.Material3.Button" />
 
     <style name="TextAppearance.TipJar.TextInputLayout.OutlinedBox" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-<!--        <item name="android:textColor">?colorSecondary</item>-->
-<!--        <item name="android:textAppearance">@style/TextAppearance.TipJar.Headline3</item>-->
         <item name="boxStrokeColor">@color/boxStrokeColor</item>
         <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.TipJar.TextInputLayout.OutlinedBox</item>
     </style>
@@ -44,7 +42,13 @@
         <item name="cornerSize">12dp</item>
     </style>
 
+    <style name="ShapeAppearanceOverlay.TipJar.ImageView" parent="" >
+        <item name="cornerSize">12dp</item>
+    </style>
 
+    <style name="ShapeAppearanceOverlay.TipJar.CardView" parent="" >
+        <item name="cornerSize">12dp</item>
+    </style>
 
     <style name="Widget.TipJar.OutlinedCheckBox" parent="Widget.MaterialComponents.CompoundButton.CheckBox">
         <item name="materialThemeOverlay">@style/ThemeOverlay.TipJar.CheckBox</item>
@@ -56,10 +60,6 @@
         <item name="colorOnSurface">@color/primaryTextColor</item>
         <item name="colorSecondary">@color/primaryColor</item>
         <item name="colorOnSecondary">#000</item>
-
-<!--        <item name="colorControlHighlight">#000</item>-->
     </style>
-    
-<!--    <style name=""-->
 
 </resources>

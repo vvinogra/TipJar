@@ -31,7 +31,8 @@ internal class TipHistoryLocalDataSource @Inject constructor(
             id = 0,
             totalAmount = totalAmount,
             tipAmount = tipAmount,
-            timestamp = timestamp
+            timestamp = timestamp,
+            currencyCode = currencyCode
         )
     }
 
@@ -40,7 +41,8 @@ internal class TipHistoryLocalDataSource @Inject constructor(
             id = id,
             totalAmount = totalAmount,
             tipAmount = tipAmount,
-            timestamp = timestamp
+            timestamp = timestamp,
+            currencyCode = currencyCode
         )
     }
 }

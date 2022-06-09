@@ -10,5 +10,6 @@ data class TipHistoryDbEntity(
     @PrimaryKey(autoGenerate = true) val id: Int,
     @ColumnInfo(name = "total_amount") val totalAmount: Double,
     @ColumnInfo(name = "tip_amount") val tipAmount: Double,
+    @ColumnInfo(name = "currency_code") val currencyCode: String,
     @ColumnInfo(name = "timestamp") val timestamp: Long
 )

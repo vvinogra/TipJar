@@ -35,6 +35,7 @@ class TipSplitterModel @Inject constructor(
             perPersonTip = tipCalculationResult.perPerson,
             shouldTakePhotoOfReceipt = false,
             // Some currencies may have a negative [defaultFractionDigits] value
+            currencyCode = "USD",
             fractionalCurrencyDigits = max(currency.defaultFractionDigits, 0),
             currencySymbol = currency.symbol,
             toastMessage = null,
@@ -51,7 +52,8 @@ class TipSplitterModel @Inject constructor(
             tipHistoryRepository.createTipHistoryRecord(
                 totalAmount = data.totalAmount ?: data.totalAmountHintValue,
                 tipAmount = data.totalTip,
-                receiptBitmap = bitmap
+                receiptBitmap = bitmap,
+                currencyCode = data.currencyCode
             )
         }
 

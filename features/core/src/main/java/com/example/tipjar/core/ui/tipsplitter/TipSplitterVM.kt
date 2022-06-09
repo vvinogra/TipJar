@@ -89,6 +89,11 @@ class TipSplitterVM @Inject constructor(
 
     fun onUserTookReceiptPhoto(bitmap: Bitmap?) {
         viewModelScope.launch {
+            if (bitmap == null) {
+                // Ignoring
+                return@launch
+            }
+
             val data = _data.value
 
             tipSplitterModel.saveTipInHistory(data, bitmap)

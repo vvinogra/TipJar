@@ -4,7 +4,13 @@ import android.graphics.Bitmap
 import com.example.tipjar.data.tiphistory.model.TipHistoryEntity
 
 interface ITipHistoryRepository {
-    fun createTipHistoryRecord(totalAmount: Double, tipAmount: Double, receiptBitmap: Bitmap? = null)
+    fun createTipHistoryRecord(
+        totalAmount: Double,
+        tipAmount: Double,
+        currencyCode: String,
+        receiptBitmap: Bitmap? = null
+    )
+    fun getTipHistoryImagePathById(id: Int): String?
     fun removeTipHistoryRecordById(id: Int)
     fun getAllTipHistoryRecords(): List<TipHistoryEntity>
 }
