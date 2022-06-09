@@ -11,4 +11,6 @@
     <string name="take_photo_of_receipt">Take photo of receipt</string>
     <string name="save_payment">Save payment</string>
 
+    <string name="can_not_take_photo_of_receipt_toast">Can\'t open camera to take a photo of the receipt</string>
+
 </resources>

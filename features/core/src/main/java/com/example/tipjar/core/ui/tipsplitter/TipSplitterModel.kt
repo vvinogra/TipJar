@@ -3,13 +3,17 @@ package com.example.tipjar.core.ui.tipsplitter
 import android.graphics.Bitmap
 import com.example.tipjar.core.ui.tipsplitter.model.TipSplitterData
 import com.example.tipjar.data.coroutines.DispatcherProvider
+import com.example.tipjar.data.phonefeature.IUserPhoneFeatureManager
 import com.example.tipjar.data.tiphistory.ITipHistoryRepository
 import kotlinx.coroutines.withContext
+import java.util.*
 import javax.inject.Inject
+import kotlin.math.max
 
 
 class TipSplitterModel @Inject constructor(
     private val tipHistoryRepository: ITipHistoryRepository,
+    private val userPhoneFeatureManager: IUserPhoneFeatureManager,
     private val dispatcherProvider: DispatcherProvider
 ) {
     fun provideDefaultTipSplitterData(): TipSplitterData {
@@ -18,6 +22,8 @@ class TipSplitterModel @Inject constructor(
         val totalAmount = 100.0
 
         val tipCalculationResult = calculateTip(totalAmount, peopleCount, tipPercentage)
+
+        val currency = Currency.getInstance("USD")
 
         return TipSplitterData(
             tipPercentage = tipPercentage,
@@ -28,8 +34,16 @@ class TipSplitterModel @Inject constructor(
             totalTip = tipCalculationResult.total,
             perPersonTip = tipCalculationResult.perPerson,
             shouldTakePhotoOfReceipt = false,
+            // Some currencies may have a negative [defaultFractionDigits] value
+            fractionalCurrencyDigits = max(currency.defaultFractionDigits, 0),
+            currencySymbol = currency.symbol,
+            toastMessage = null,
             navigationEvent = null
         )
+    }
+
+    fun canTakePhotoOfReceipt(): Boolean {
+        return userPhoneFeatureManager.canOpenExternalImageCapture()
     }
 
     suspend fun saveTipInHistory(data: TipSplitterData, bitmap: Bitmap? = null) =

@@ -1,7 +1,10 @@
 package com.example.tipjar.core.ui.tipsplitter
 
 import android.os.Bundle
+import android.text.InputType
 import android.view.*
+import android.widget.Toast
+import androidx.annotation.StringRes
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -15,6 +18,7 @@ import com.example.tipjar.core.ui.tipsplitter.model.TipSplitterData
 import com.example.tipjar.core.ui.tipsplitter.model.TipSplitterNavigation
 import com.example.tipjar.core.util.activityresult.OpenCameraContract
 import com.example.tipjar.shared.ui.extensions.*
+import com.example.tipjar.shared.ui.util.edittext.inputfilter.DecimalDigitsInputFilter
 import com.example.tipjar.shared.ui.util.edittext.inputfilter.MinMaxInputFilter
 import com.example.tipjar.shared.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -99,7 +103,17 @@ class TipSplitterFragment : Fragment(R.layout.fragment_tip_splitter) {
                     etTipPercentage.moveCursorToEnd()
                 }
             }
-            etEnterAmount.hint = data.totalAmountHintValue.toString()
+            etEnterAmount.hint = data.formatValueWithCurrencyCodeAndFractionalDigits(
+                data.totalAmountHintValue,
+                false
+            )
+
+            etEnterAmount.filters = arrayOf(DecimalDigitsInputFilter(data.fractionalCurrencyDigits))
+            etEnterAmount.inputType = if (data.fractionalCurrencyDigits > 0) {
+                InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL
+            } else {
+                InputType.TYPE_CLASS_NUMBER
+            }
 
             tvPeopleAmount.text = data.peopleCount.toString()
 
@@ -111,8 +125,8 @@ class TipSplitterFragment : Fragment(R.layout.fragment_tip_splitter) {
             }
             etTipPercentage.hint = data.tipPercentageHintValue.toString()
 
-            tvTotalTipAmount.text = String.format("%.2f", data.totalTip)
-            tvTipPerPersonAmount.text = String.format("%.2f", data.perPersonTip)
+            tvTotalTipAmount.text = data.formatValueWithCurrencyCodeAndFractionalDigits(data.totalTip)
+            tvTipPerPersonAmount.text = data.formatValueWithCurrencyCodeAndFractionalDigits(data.perPersonTip)
 
             cbTakePhoto.isChecked = data.shouldTakePhotoOfReceipt
 
@@ -120,7 +134,29 @@ class TipSplitterFragment : Fragment(R.layout.fragment_tip_splitter) {
                 handleNavigation(it)
                 viewModel.navigationEventHandled()
             }
+
+            data.toastMessage?.let {
+                displayToastMessage(it)
+                viewModel.toastMessageDisplayed()
+            }
         }
+    }
+
+    private fun TipSplitterData.formatValueWithCurrencyCodeAndFractionalDigits(
+        value: Double,
+        useCurrencySymbol: Boolean = true
+    ) : String {
+        val template = if (useCurrencySymbol) {
+            "${currencySymbol}%.${fractionalCurrencyDigits}f"
+        } else {
+            "%.${fractionalCurrencyDigits}f"
+        }
+
+        return String.format(template, value)
+    }
+
+    private fun displayToastMessage(@StringRes messageId: Int) {
+        Toast.makeText(requireContext(), messageId, Toast.LENGTH_SHORT).show()
     }
 
     private fun handleNavigation(navigation: TipSplitterNavigation) {

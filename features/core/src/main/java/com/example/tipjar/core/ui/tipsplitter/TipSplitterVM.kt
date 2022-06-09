@@ -3,6 +3,7 @@ package com.example.tipjar.core.ui.tipsplitter
 import android.graphics.Bitmap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.tipjar.core.R
 import com.example.tipjar.core.ui.tipsplitter.model.TipSplitterNavigation
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -103,9 +104,16 @@ class TipSplitterVM @Inject constructor(
             val data = _data.value
 
             if (data.shouldTakePhotoOfReceipt) {
-                _data.update {
-                    it.copy(navigationEvent = TipSplitterNavigation.TakePhotoOfReceipt)
+                if (tipSplitterModel.canTakePhotoOfReceipt()) {
+                    _data.update {
+                        it.copy(navigationEvent = TipSplitterNavigation.TakePhotoOfReceipt)
+                    }
+                } else {
+                    _data.update {
+                        it.copy(toastMessage = R.string.can_not_take_photo_of_receipt_toast)
+                    }
                 }
+
                 return@launch
             }
 
@@ -126,6 +134,12 @@ class TipSplitterVM @Inject constructor(
     fun navigationEventHandled() {
         _data.update {
             it.copy(navigationEvent = null)
+        }
+    }
+
+    fun toastMessageDisplayed() {
+        _data.update {
+            it.copy(toastMessage = null)
         }
     }
 }
