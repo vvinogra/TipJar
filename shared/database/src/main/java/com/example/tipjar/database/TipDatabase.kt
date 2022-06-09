@@ -5,9 +5,9 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.tipjar.database.dao.TipJarDaos
-import com.example.tipjar.database.entity.TipHistoryDb
+import com.example.tipjar.database.entity.TipHistoryDbEntity
 
-@Database(entities = [TipHistoryDb::class], version = 1, exportSchema = false)
+@Database(entities = [TipHistoryDbEntity::class], version = 1, exportSchema = false)
 abstract class TipDatabase : RoomDatabase(), TipJarDaos {
 
     companion object {

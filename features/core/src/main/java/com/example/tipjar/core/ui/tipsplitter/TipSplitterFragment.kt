@@ -2,28 +2,52 @@ package com.example.tipjar.core.ui.tipsplitter
 
 import android.os.Bundle
 import android.view.*
-import androidx.core.view.updateLayoutParams
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.example.tipjar.core.R
 import com.example.tipjar.core.databinding.FragmentTipSplitterBinding
-import com.example.tipjar.shared.ui.extensions.alignPrefixCenter
-import com.example.tipjar.shared.ui.extensions.alignSuffixCenter
+import com.example.tipjar.core.navigation.CoreNavigation
+import com.example.tipjar.core.ui.tipsplitter.model.TipSplitterData
+import com.example.tipjar.core.ui.tipsplitter.model.TipSplitterNavigation
+import com.example.tipjar.core.util.activityresult.OpenCameraContract
+import com.example.tipjar.shared.ui.extensions.*
+import com.example.tipjar.shared.ui.util.edittext.inputfilter.MinMaxInputFilter
 import com.example.tipjar.shared.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
+import javax.inject.Inject
+
 
 @AndroidEntryPoint
 class TipSplitterFragment : Fragment(R.layout.fragment_tip_splitter) {
 
+    @Inject
+    lateinit var coreNavigation: CoreNavigation
+
     private val binding: FragmentTipSplitterBinding by viewBinding()
     private val viewModel: TipSplitterVM by viewModels()
+
+    private val startCameraActivityForResult = registerForActivityResult(OpenCameraContract()) {
+        viewModel.onUserTookReceiptPhoto(it)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupViews()
 
-        with(viewModel) {
-
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                with(viewModel) {
+                    launch {
+                        uiData.collect(::displayUiData)
+                    }
+                }
+            }
         }
     }
 
@@ -31,6 +55,28 @@ class TipSplitterFragment : Fragment(R.layout.fragment_tip_splitter) {
         with(binding) {
             tlEnterAmount.alignPrefixCenter()
             tlTipPercentage.alignSuffixCenter()
+
+            etEnterAmount.doOnTextChanged { text, _, _, _ ->
+                viewModel.onTotalAmountChanged(text.toString())
+            }
+
+            mcvAddPeople.setOnClickListener { viewModel.onPlusButtonClicked() }
+            mcvMinusPeople.setOnClickListener { viewModel.onMinusButtonClicked() }
+
+            etTipPercentage.filters = arrayOf(
+                MinMaxInputFilter(0, 100)
+            )
+            etTipPercentage.doOnTextChanged { text, _, _, _ ->
+                viewModel.onTipPercentageChanged(text.toString())
+            }
+
+            cbTakePhoto.setOnCheckedChangeListener { _, isChecked ->
+                viewModel.onTakePhotoOfReceiptCheckedChanged(isChecked)
+            }
+
+            btnSavePayment.setOnClickListener {
+                viewModel.onSaveButtonClicked()
+            }
 
             toolbar.inflateMenu(R.menu.tip_splitter_menu)
             toolbar.setOnMenuItemClickListener {
@@ -42,6 +88,47 @@ class TipSplitterFragment : Fragment(R.layout.fragment_tip_splitter) {
                     else -> false
                 }
             }
+        }
+    }
+
+    private fun displayUiData(data: TipSplitterData) {
+        with(binding) {
+            if (data.totalAmount != etEnterAmount.text().toDoubleOrNull()) {
+                data.totalAmount?.let {
+                    etEnterAmount.setText(it.toString())
+                    etTipPercentage.moveCursorToEnd()
+                }
+            }
+            etEnterAmount.hint = data.totalAmountHintValue.toString()
+
+            tvPeopleAmount.text = data.peopleCount.toString()
+
+            if (data.tipPercentage != etTipPercentage.text().toIntOrNull()) {
+                data.tipPercentage?.let {
+                    etTipPercentage.setText(it.toString())
+                    etTipPercentage.moveCursorToEnd()
+                }
+            }
+            etTipPercentage.hint = data.tipPercentageHintValue.toString()
+
+            tvTotalTipAmount.text = String.format("%.2f", data.totalTip)
+            tvTipPerPersonAmount.text = String.format("%.2f", data.perPersonTip)
+
+            cbTakePhoto.isChecked = data.shouldTakePhotoOfReceipt
+
+            data.navigationEvent?.let {
+                handleNavigation(it)
+                viewModel.navigationEventHandled()
+            }
+        }
+    }
+
+    private fun handleNavigation(navigation: TipSplitterNavigation) {
+        when (navigation) {
+            TipSplitterNavigation.TakePhotoOfReceipt ->
+                startCameraActivityForResult.launchUnit()
+            TipSplitterNavigation.TipHistory ->
+                coreNavigation.fromTipSplitterToTipHistory(this)
         }
     }
 }

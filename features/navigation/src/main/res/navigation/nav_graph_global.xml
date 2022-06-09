@@ -1,11 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph_global"
     app:startDestination="@id/tipSplitterFragment">
 
     <fragment
         android:id="@+id/tipSplitterFragment"
         android:name="com.example.tipjar.core.ui.tipsplitter.TipSplitterFragment"
-        android:label="TipSplitterFragment" />
+        android:label="TipSplitterFragment"
+        tools:layout="@layout/fragment_tip_splitter">
+        <action
+            android:id="@+id/action_tipSplitterFragment_to_tipHistoryFragment"
+            app:destination="@id/tipHistoryFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/tipHistoryFragment"
+        android:name="com.example.tipjar.core.ui.tiphistory.TipHistoryFragment"
+        android:label="TipHistoryFragment"
+        tools:layout="@layout/fragment_tip_history" />
 </navigation>

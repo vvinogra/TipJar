@@ -48,6 +48,9 @@
             android:layout_height="wrap_content"
             android:text="@string/enter_amount"
             android:textAppearance="@style/TextAppearance.TipJar.Headline6"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/glBegin"
             app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
@@ -58,6 +61,9 @@
             android:layout_marginTop="32dp"
             android:text="@string/how_many_people"
             android:textAppearance="@style/TextAppearance.TipJar.Headline6"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/glBegin"
             app:layout_constraintTop_toBottomOf="@+id/tlEnterAmount" />
 
@@ -83,7 +89,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:hint="100.00"
-                android:inputType="number"
+                android:inputType="numberDecimal"
                 android:textAppearance="@style/TextAppearance.TipJar.Headline3" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -100,7 +106,7 @@
             app:layout_constraintStart_toStartOf="@+id/glBegin"
             app:layout_constraintTop_toBottomOf="@+id/tvHowManyPeople"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.TipJar.BigCircularButton"
-            app:strokeColor="@color/strokeColor"
+            app:strokeColor="@color/outlinedButtonStrokeColor"
             app:strokeWidth="1dp">
 
             <TextView
@@ -142,7 +148,7 @@
             app:layout_constraintStart_toEndOf="@+id/tvPeopleAmount"
             app:layout_constraintTop_toTopOf="@+id/mcvAddPeople"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.TipJar.BigCircularButton"
-            app:strokeColor="@color/strokeColor"
+            app:strokeColor="@color/outlinedButtonStrokeColor"
             app:strokeWidth="1dp">
 
             <TextView
@@ -165,8 +171,11 @@
             android:layout_marginTop="32dp"
             android:text="@string/tip"
             android:textAppearance="@style/TextAppearance.TipJar.Headline6"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintEnd_toStartOf="@+id/glEnd"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/glBegin"
-            app:layout_constraintTop_toBottomOf="@+id/barrier3" />
+            app:layout_constraintTop_toBottomOf="@+id/barrierHowManyPeopleSection" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tlTipPercentage"
@@ -201,6 +210,7 @@
             android:layout_marginTop="32dp"
             android:text="@string/total_tip"
             android:textAppearance="@style/TextAppearance.TipJar.Headline6"
+            app:layout_constrainedWidth="true"
             app:layout_constraintEnd_toStartOf="@+id/tvTotalTipAmount"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintHorizontal_chainStyle="spread_inside"
@@ -211,7 +221,10 @@
             android:id="@+id/tvTotalTipAmount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:lines="1"
             android:textAppearance="@style/TextAppearance.TipJar.Headline6"
+            app:layout_constrainedWidth="true"
             app:layout_constraintBottom_toBottomOf="@+id/tvTotalTip"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/glEnd"
@@ -225,7 +238,10 @@
             android:id="@+id/tvTipPerPersonAmount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:lines="1"
             android:textAppearance="@style/TextAppearance.TipJar.Headline5"
+            app:layout_constrainedWidth="true"
             app:layout_constraintBottom_toBottomOf="@+id/tvTipPerPerson"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/glEnd"
@@ -240,10 +256,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
             android:layout_marginBottom="32dp"
             android:text="@string/per_person"
             android:textAppearance="@style/TextAppearance.TipJar.Headline5"
-            app:layout_constraintBottom_toTopOf="@+id/checkBox"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintBottom_toTopOf="@+id/cbTakePhoto"
             app:layout_constraintEnd_toStartOf="@+id/tvTipPerPersonAmount"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintHorizontal_chainStyle="spread_inside"
@@ -252,12 +270,14 @@
             app:layout_constraintVertical_bias="0.0" />
 
         <CheckBox
-            android:id="@+id/checkBox"
+            android:id="@+id/cbTakePhoto"
+            style="@style/Widget.TipJar.OutlinedCheckBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:text="@string/take_photo_of_receipt"
             android:textAppearance="@style/TextAppearance.TipJar.Headline6"
+            app:layout_constrainedWidth="true"
             app:layout_constraintBottom_toTopOf="@+id/btnSavePayment"
             app:layout_constraintEnd_toStartOf="@+id/glEnd"
             app:layout_constraintHorizontal_bias="0.0"
@@ -275,11 +295,11 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/glEnd"
             app:layout_constraintStart_toStartOf="@+id/glBegin"
-            app:layout_constraintTop_toBottomOf="@+id/checkBox"
+            app:layout_constraintTop_toBottomOf="@+id/cbTakePhoto"
             app:layout_constraintVertical_chainStyle="packed" />
 
         <androidx.constraintlayout.widget.Barrier
-            android:id="@+id/barrier3"
+            android:id="@+id/barrierHowManyPeopleSection"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:barrierDirection="bottom"
