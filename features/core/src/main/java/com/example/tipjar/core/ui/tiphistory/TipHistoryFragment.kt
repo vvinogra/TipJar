@@ -9,6 +9,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.tipjar.core.R
 import com.example.tipjar.core.databinding.FragmentTipHistoryBinding
+import com.example.tipjar.core.navigation.CoreNavigation
 import com.example.tipjar.core.ui.tiphistory.adapter.TipHistoryAdapter
 import com.example.tipjar.core.ui.tiphistory.adapter.TipHistoryListItemUiData
 import com.example.tipjar.core.ui.tiphistory.model.TipHistoryNavigation
@@ -17,9 +18,13 @@ import com.example.tipjar.shared.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class TipHistoryFragment: BaseFragment(R.layout.fragment_tip_history) {
+
+    @Inject
+    lateinit var coreNavigation: CoreNavigation
 
     private val binding: FragmentTipHistoryBinding by viewBinding()
     private val viewModel: TipHistoryVM by viewModels()
@@ -41,13 +46,12 @@ class TipHistoryFragment: BaseFragment(R.layout.fragment_tip_history) {
     }
 
     private fun setupViews() {
-        tipHistoryAdapter = TipHistoryAdapter {  }
+        tipHistoryAdapter = TipHistoryAdapter()
 
         with(binding) {
             toolbar.setNavigationOnClickListener { onBackPressed( ) }
 
             rvTipHistory.layoutManager = LinearLayoutManager(requireContext())
-
             rvTipHistory.adapter = tipHistoryAdapter
         }
     }
@@ -60,9 +64,11 @@ class TipHistoryFragment: BaseFragment(R.layout.fragment_tip_history) {
         if (navigation == null) return
 
         when (navigation) {
-            is TipHistoryNavigation.OpenFullSizedTipHistoryItem -> {
-                // TODO open tip history details
-            }
+            is TipHistoryNavigation.OpenFullSizedTipHistoryItem ->
+                coreNavigation.fromTipHistoryToTipDetails(
+                    this,
+                    navigation.tipDetailsNavValues
+                )
         }
 
         viewModel.onNavigationHandled()

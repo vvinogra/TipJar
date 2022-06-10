@@ -1,11 +1,13 @@
 package com.example.tipjar.core.ui.tiphistory.model
 
+import com.example.tipjar.core.ui.tipdetails.navigation.TipDetailsNavValues
 import com.example.tipjar.core.ui.tiphistory.adapter.TipHistoryListItemUiData
-import com.example.tipjar.core.ui.tipsplitter.model.TipSplitterNavigation
 import com.example.tipjar.data.tiphistory.model.TipHistoryEntity
 
 sealed class TipHistoryNavigation {
-    data class OpenFullSizedTipHistoryItem(val id: Int): TipHistoryNavigation()
+    data class OpenFullSizedTipHistoryItem(
+        val tipDetailsNavValues: TipDetailsNavValues
+    ): TipHistoryNavigation()
 }
 
 data class TipHistoryUiData(

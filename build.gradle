@@ -31,7 +31,7 @@ subprojects {
                 compileSdkVersion 32
 
                 defaultConfig {
-                    minSdkVersion 21
+                    minSdkVersion 23
                     targetSdkVersion 30
                     testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
                 }

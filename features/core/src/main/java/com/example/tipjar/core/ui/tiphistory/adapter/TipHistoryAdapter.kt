@@ -3,13 +3,9 @@ package com.example.tipjar.core.ui.tiphistory.adapter
 import android.view.ViewGroup
 import com.example.tipjar.shared.ui.base.adapter.BaseRecyclerViewAdapter
 
-typealias OnTipHistoryItemClickListener = (Int) -> Unit
-
-class TipHistoryAdapter(
-    private val listener: OnTipHistoryItemClickListener
-) : BaseRecyclerViewAdapter<TipHistoryItemVH, TipHistoryListItemUiData>() {
+class TipHistoryAdapter : BaseRecyclerViewAdapter<TipHistoryItemVH, TipHistoryListItemUiData>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TipHistoryItemVH {
-        return TipHistoryItemVH(parent, listener)
+        return TipHistoryItemVH(parent)
     }
 
     override fun onBindViewHolder(holder: TipHistoryItemVH, position: Int) {

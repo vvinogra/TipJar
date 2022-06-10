@@ -2,6 +2,7 @@ package com.example.tipjar.core.ui.tiphistory
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.tipjar.core.ui.tipdetails.navigation.TipDetailsNavValues
 import com.example.tipjar.core.ui.tiphistory.adapter.TipHistoryListItemUiData
 import com.example.tipjar.core.ui.tiphistory.model.TipHistoryNavigation
 import com.example.tipjar.data.tiphistory.model.TipHistoryEntity
@@ -35,13 +36,27 @@ class TipHistoryVM @Inject constructor(
 
     private fun List<TipHistoryEntity>.asTipHistoryListItemUiDataList(): List<TipHistoryListItemUiData> {
         return map {
+            val totalAmount = it.getFormattedTotalAmount()
+            val totalTipAmount = it.getFormattedTipTotalAmount()
+            val date = tipHistoryModel.getFormattedDateString(it.timestamp)
+            val imagePath = tipHistoryModel.getTipHistoryImagePathById(it.id)
+
             TipHistoryListItemUiData(
-                date = tipHistoryModel.getFormattedDateString(it.timestamp),
-                totalAmount = it.getFormattedTotalAmount(),
-                totalTipAmount = it.getFormattedTipTotalAmount(),
-                imagePath = tipHistoryModel.getTipHistoryImagePathById(it.id),
-                onTipHistoryClick = {
-                    _navigation.value = TipHistoryNavigation.OpenFullSizedTipHistoryItem(it.id)
+                date = date,
+                totalAmount = totalAmount,
+                totalTipAmount = totalTipAmount,
+                imagePath = imagePath,
+                onTipHistoryItemImageClick = {
+                    if (imagePath == null) return@TipHistoryListItemUiData
+
+                    _navigation.value = TipHistoryNavigation.OpenFullSizedTipHistoryItem(
+                        TipDetailsNavValues(
+                            date = date,
+                            totalAmount = totalAmount,
+                            tipTotalAmount = totalTipAmount,
+                            imagePath = imagePath
+                        )
+                    )
                 }
             )
         }

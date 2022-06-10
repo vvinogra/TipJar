@@ -1,13 +1,8 @@
 package com.example.tipjar.data.image
 
-import android.content.ContentResolver
 import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Matrix
 import android.media.ThumbnailUtils
-import android.net.Uri
-import android.webkit.MimeTypeMap
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.io.*
 import javax.inject.Inject
@@ -75,75 +70,7 @@ internal class ImageStorageManager @Inject constructor(
             imagesFolder.deleteRecursively()
         }
     }
-//
-//    override fun createCopy(originalId: String, newId: String) {
-//        val originalImageFile = getImageFile(originalId)
-//        val originalThumbnailImageFile = getThumbnailImageFile(originalId)
-//        if (originalImageFile.exists()) {
-//            val newImageFile = getImageFile(newId)
-//            val newThumbnailImageFile = getThumbnailImageFile(newId)
-//            originalImageFile.createFileCopy(newImageFile)
-//            originalThumbnailImageFile.createFileCopy(newThumbnailImageFile)
-//        }
-//    }
-//
-//    override fun saveImageData(id: String, cachedImage: CachedImage?, currentImage: ImageData) {
-//        if (isImageChanged(cachedImage, currentImage)) {
-//            when (cachedImage?.imageData) {
-//                is ImageData.ResImageData -> {
-//                    getImageFile(id).delete()
-//                    getThumbnailImageFile(id).delete()
-//                }
-//                is ImageData.FileImageData -> {
-//                    val imageFile = getImageFile(id)
-//                    val thumbnailImageFile = getThumbnailImageFile(id)
-//                    saveBitmapToFile(
-//                        cachedImage.bitmap!!,
-//                        Bitmap.CompressFormat.JPEG,
-//                        imageFile,
-//                        thumbnailImageFile
-//                    )
-//                }
-//            }
-//        }
-//    }
 
-//    override fun isImageChanged(
-//        newImage: CachedImage?,
-//        originalImage: ImageData
-//    ): Boolean {
-//        val newImageData = newImage?.imageData
-//        return when {
-//            newImageData is ImageData.ResImageData && originalImage is ImageData.FileImageData -> true
-//            newImageData is ImageData.FileImageData && originalImage is ImageData.FileImageData -> {
-//                val newBitmap = newImage.bitmap
-//                val originalBitmap = loadBitmapFromPath(originalImage.path)
-//                !originalBitmap.sameAs(newBitmap)
-//            }
-//            else -> false
-//        }
-//    }
-//
-//    override fun getBitmap(imageData: ImageData?): Bitmap? = when (imageData) {
-//        is ImageData.FileImageData -> loadBitmapFromPath(imageData.path)
-//        else -> null
-//    }
-//
-//    private fun loadBitmapFromPath(path: String): Bitmap =
-//        BitmapFactory.decodeFile(path, BitmapFactory.Options())
-//
-//    private fun File.createFileCopy(dest: File) {
-//        FileInputStream(this).use { fis ->
-//            val buffer = ByteArray(1024)
-//            FileOutputStream(dest).use { fos ->
-//                var length: Int
-//                while (fis.read(buffer).also { length = it } > 0) {
-//                    fos.write(buffer, 0, length)
-//                }
-//            }
-//        }
-//    }
-//
     private fun File.saveToFile(
         bitmap: Bitmap,
         compressFormat: Bitmap.CompressFormat,
@@ -153,22 +80,7 @@ internal class ImageStorageManager @Inject constructor(
             bitmap.compress(compressFormat, imageQuality, it)
         }
     }
-//
-//    private fun getCompressFormat(uri: Uri): Bitmap.CompressFormat =
-//        if (getFileExtension(uri) == IMAGE_EXT_PNG) {
-//            Bitmap.CompressFormat.PNG
-//        } else {
-//            Bitmap.CompressFormat.JPEG
-//        }
-//
-//    private fun getFileExtension(uri: Uri): String? {
-//        val extension: String?
-//        val contentResolver: ContentResolver = applicationContext.contentResolver
-//        val mimeTypeMap = MimeTypeMap.getSingleton()
-//        extension = mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri))
-//        return extension
-//    }
-//
+
     private fun File.getFilePathIfExist(): String? =
         if (exists()) {
             absolutePath
@@ -204,47 +116,6 @@ internal class ImageStorageManager @Inject constructor(
         }
         return sceneThumbnailImageFolder
     }
-//
-//    private fun getBitmapFromUri(uri: Uri): Bitmap? {
-//        val parcelFileDescriptor = applicationContext.contentResolver.openFileDescriptor(uri, "r")
-//        val fileDescriptor = parcelFileDescriptor?.fileDescriptor
-//        val image: Bitmap? = BitmapFactory.decodeFileDescriptor(fileDescriptor)
-//        val orientedImage = image.modifyOrientation(fileDescriptor)
-//        parcelFileDescriptor?.close()
-//        return orientedImage
-//    }
-//
-//    private fun Bitmap?.modifyOrientation(fileDescriptor: FileDescriptor?): Bitmap? {
-//        if (this == null || fileDescriptor == null) return null
-//        val exifInterface = ExifInterface(fileDescriptor)
-//        return when (exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL)) {
-//            ExifInterface.ORIENTATION_ROTATE_90 -> rotate(degrees = 90)
-//            ExifInterface.ORIENTATION_ROTATE_180 -> rotate(degrees = 180)
-//            ExifInterface.ORIENTATION_ROTATE_270 -> rotate(degrees = 270)
-//            ExifInterface.ORIENTATION_FLIP_HORIZONTAL -> flip(FlipType.HORIZONTAL)
-//            ExifInterface.ORIENTATION_FLIP_VERTICAL -> flip(FlipType.VERTICAL)
-//            else -> this
-//        }
-//    }
-//
-//    private fun Bitmap.rotate(degrees: Int): Bitmap {
-//        val matrix = Matrix()
-//        matrix.postRotate(degrees.toFloat())
-//        return Bitmap.createBitmap(this, 0, 0, width, height, matrix, true)
-//    }
-//
-//    private fun Bitmap.flip(flipType: FlipType): Bitmap {
-//        val matrix = Matrix()
-//        when (flipType) {
-//            FlipType.HORIZONTAL -> matrix.preScale(-1f, 1f)
-//            FlipType.VERTICAL -> matrix.preScale(1f, -1f)
-//        }
-//        return Bitmap.createBitmap(this, 0, 0, width, height, matrix, true)
-//    }
-//
-//    enum class FlipType {
-//        HORIZONTAL, VERTICAL
-//    }
 }
 
 sealed class ImageSavingResult {

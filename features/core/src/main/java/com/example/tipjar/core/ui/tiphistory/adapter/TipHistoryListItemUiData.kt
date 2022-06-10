@@ -5,5 +5,5 @@ data class TipHistoryListItemUiData(
     val totalAmount: String,
     val totalTipAmount: String,
     val imagePath: String?,
-    val onTipHistoryClick: () -> Unit
+    val onTipHistoryItemImageClick: () -> Unit
 )

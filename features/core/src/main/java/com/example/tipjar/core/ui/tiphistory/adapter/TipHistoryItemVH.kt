@@ -8,8 +8,7 @@ import com.example.tipjar.core.databinding.VhTipHistoryItemBinding
 import com.example.tipjar.shared.ui.extensions.inflate
 
 class TipHistoryItemVH(
-    parent: ViewGroup,
-    private val listener: OnTipHistoryItemClickListener
+    parent: ViewGroup
 ) : RecyclerView.ViewHolder(parent.inflate(R.layout.vh_tip_history_item)) {
 
     private val binding = VhTipHistoryItemBinding.bind(itemView)
@@ -24,8 +23,8 @@ class TipHistoryItemVH(
                 .load(data.imagePath)
                 .into(ivTipImage)
 
-            root.setOnClickListener {
-                data.onTipHistoryClick()
+            ivTipImage.setOnClickListener {
+                data.onTipHistoryItemImageClick()
             }
         }
     }
