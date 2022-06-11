@@ -27,11 +27,9 @@
                 android:layout_gravity="center"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text="Saved payments"
+                android:text="@string/saved_payments"
                 android:textAllCaps="true"
-                android:textAppearance="@style/TextAppearance.TipJar.Headline6"
-                tools:layout_editor_absoluteX="16dp"
-                tools:layout_editor_absoluteY="17dp" />
+                android:textAppearance="@style/TextAppearance.TipJar.Headline6" />
 
         </androidx.appcompat.widget.Toolbar>
 

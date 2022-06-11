@@ -8,7 +8,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/glBegin"
@@ -100,6 +100,7 @@
             android:layout_marginTop="16dp"
             android:clickable="true"
             android:focusable="true"
+            app:cardElevation="0dp"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toStartOf="@+id/tvPeopleAmount"
             app:layout_constraintHorizontal_chainStyle="spread_inside"
@@ -141,6 +142,7 @@
             android:layout_height="wrap_content"
             android:clickable="true"
             android:focusable="true"
+            app:cardElevation="0dp"
             app:layout_constraintBottom_toBottomOf="@+id/mcvAddPeople"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toStartOf="@+id/glEnd"
@@ -282,8 +284,6 @@
             app:layout_constraintEnd_toStartOf="@+id/glEnd"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/glBegin"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar"
-            app:layout_constraintVertical_bias="1.0"
             app:layout_constraintVertical_chainStyle="packed" />
 
         <Button
@@ -295,7 +295,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/glEnd"
             app:layout_constraintStart_toStartOf="@+id/glBegin"
-            app:layout_constraintTop_toBottomOf="@+id/cbTakePhoto"
             app:layout_constraintVertical_chainStyle="packed" />
 
         <androidx.constraintlayout.widget.Barrier

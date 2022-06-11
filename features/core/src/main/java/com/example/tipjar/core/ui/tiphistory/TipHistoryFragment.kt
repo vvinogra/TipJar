@@ -55,7 +55,7 @@ class TipHistoryFragment: BaseFragment(R.layout.fragment_tip_history) {
         tipHistoryAdapter = TipHistoryAdapter()
 
         with(binding) {
-            toolbar.setNavigationOnClickListener { onBackPressed( ) }
+            toolbar.setNavigationOnClickListener { onBackPressed() }
 
             rvTipHistory.layoutManager = LinearLayoutManager(requireContext())
             rvTipHistory.adapter = tipHistoryAdapter

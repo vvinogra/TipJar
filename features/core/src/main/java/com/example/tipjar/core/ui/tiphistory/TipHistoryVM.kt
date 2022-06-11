@@ -63,7 +63,7 @@ class TipHistoryVM @Inject constructor(
             }
 
             // We need to restore an item before updating the list because
-            // we also save a bitmap in the filesystem if it exists
+            // we also save a bitmap of the user image in the filesystem if it exists
             tipHistoryModel.restoreTipHistoryEntity(
                 recentlyDeletedCachedItem.item.clickItem,
                 recentlyDeletedCachedItem.bitmap
@@ -155,10 +155,10 @@ class TipHistoryVM @Inject constructor(
             currencyCode
         )
     }
-}
 
-data class RecentlyDeletedItemData(
-    val item: TipHistoryListItemUiData,
-    val position: Int,
-    val bitmap: Bitmap?
-)
+    private data class RecentlyDeletedItemData(
+        val item: TipHistoryListItemUiData,
+        val position: Int,
+        val bitmap: Bitmap?
+    )
+}

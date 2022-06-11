@@ -2,9 +2,9 @@ package com.example.tipjar.core.ui.tiphistory.adapter
 
 import android.view.ViewGroup
 import com.example.tipjar.core.ui.tiphistory.model.TipHistoryListItemUiData
-import com.example.tipjar.shared.ui.base.adapter.BaseRecyclerViewAdapter
+import com.example.tipjar.shared.ui.base.adapter.PreserveScrollPositionRecyclerViewAdapter
 
-class TipHistoryAdapter : BaseRecyclerViewAdapter<TipHistoryItemVH, TipHistoryListItemUiData>() {
+class TipHistoryAdapter : PreserveScrollPositionRecyclerViewAdapter<TipHistoryItemVH, TipHistoryListItemUiData>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TipHistoryItemVH {
         return TipHistoryItemVH(parent)
     }

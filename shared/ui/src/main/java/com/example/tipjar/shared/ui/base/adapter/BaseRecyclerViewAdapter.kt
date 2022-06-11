@@ -12,7 +12,7 @@ abstract class BaseRecyclerViewAdapter<VH : RecyclerView.ViewHolder, T> : Recycl
         setDataInternal(data, updateWithAnimation)
     }
 
-    protected fun setDataInternal(data: List<T>, updateWithAnimation: Boolean = true) {
+    protected open fun setDataInternal(data: List<T>, updateWithAnimation: Boolean = true) {
         val diffCallback = getDiffUtilCallback(data)
         if (diffCallback == null || !updateWithAnimation) {
             updateDataList(data)
