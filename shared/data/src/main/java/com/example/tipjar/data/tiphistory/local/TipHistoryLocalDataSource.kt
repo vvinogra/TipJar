@@ -1,6 +1,5 @@
 package com.example.tipjar.data.tiphistory.local
 
-import com.example.tipjar.data.tiphistory.local.model.CreateTipHistoryEntityDto
 import com.example.tipjar.data.tiphistory.model.TipHistoryEntity
 import com.example.tipjar.database.TipDatabase
 import com.example.tipjar.database.dao.TipHistoryDao
@@ -18,17 +17,17 @@ internal class TipHistoryLocalDataSource @Inject constructor(
 
     fun getAll(): List<TipHistoryEntity> = tipHistoryDao.getAll().map { it.asTipHistoryEntity() }
 
-    fun create(createTipHistoryEntityDto: CreateTipHistoryEntityDto): Int {
-        return tipHistoryDao.insert(createTipHistoryEntityDto.asTipHistoryDbEntity()).toInt()
+    fun create(tipHistoryEntity: TipHistoryEntity): Int {
+        return tipHistoryDao.insert(tipHistoryEntity.asTipHistoryDbEntity()).toInt()
     }
 
     fun removeById(id: Int) {
         tipHistoryDao.removeById(id)
     }
 
-    private fun CreateTipHistoryEntityDto.asTipHistoryDbEntity(): TipHistoryDbEntity {
+    private fun TipHistoryEntity.asTipHistoryDbEntity(): TipHistoryDbEntity {
         return TipHistoryDbEntity(
-            id = 0,
+            id = id,
             totalAmount = totalAmount,
             tipAmount = tipAmount,
             timestamp = timestamp,

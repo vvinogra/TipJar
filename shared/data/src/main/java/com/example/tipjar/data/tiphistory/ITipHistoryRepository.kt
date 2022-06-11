@@ -10,6 +10,7 @@ interface ITipHistoryRepository {
         currencyCode: String,
         receiptBitmap: Bitmap? = null
     )
+    fun restoreTipHistoryEntity(entity: TipHistoryEntity, receiptBitmap: Bitmap?)
     fun getTipHistoryImagePathById(id: Int): String?
     fun removeTipHistoryRecordById(id: Int)
     fun getAllTipHistoryRecords(): List<TipHistoryEntity>

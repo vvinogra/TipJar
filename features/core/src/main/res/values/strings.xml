@@ -15,4 +15,7 @@
 
     <string name="can_not_take_photo_of_receipt_toast">Can\'t open camera to take a photo of the receipt</string>
 
+    <string name="one_item_deleted">1 deleted</string>
+    <string name="snack_bar_undo">Undo</string>
+
 </resources>

@@ -1,7 +1,6 @@
 package com.example.tipjar.core.ui.tiphistory.model
 
 import com.example.tipjar.core.ui.tipdetails.navigation.TipDetailsNavValues
-import com.example.tipjar.core.ui.tiphistory.adapter.TipHistoryListItemUiData
 import com.example.tipjar.data.tiphistory.model.TipHistoryEntity
 
 sealed class TipHistoryNavigation {
@@ -11,8 +10,9 @@ sealed class TipHistoryNavigation {
 }
 
 data class TipHistoryUiData(
-    val tipHistoryList: List<TipHistoryListItemUiData>,
-    val navigation: TipHistoryNavigation?
+    val showUndoDeleteSnackbarEvent: Unit?,
+    val navigation: TipHistoryNavigation?,
+    val historyList: List<TipHistoryListItemUiData>
 )
 
 data class TipHistoryData(

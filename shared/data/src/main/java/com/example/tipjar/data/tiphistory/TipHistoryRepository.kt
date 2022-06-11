@@ -3,7 +3,6 @@ package com.example.tipjar.data.tiphistory
 import android.graphics.Bitmap
 import com.example.tipjar.data.image.IImageStorageManager
 import com.example.tipjar.data.tiphistory.local.TipHistoryLocalDataSource
-import com.example.tipjar.data.tiphistory.local.model.CreateTipHistoryEntityDto
 import com.example.tipjar.data.tiphistory.model.TipHistoryEntity
 import java.util.*
 import javax.inject.Inject
@@ -14,6 +13,10 @@ internal class TipHistoryRepository @Inject constructor(
     private val tipHistoryLocalDataSource: TipHistoryLocalDataSource,
     private val iImageStorageManager: IImageStorageManager
 ) : ITipHistoryRepository {
+
+    private val currentTimeInMillis: Long
+        get() = Calendar.getInstance().timeInMillis
+
     override fun createTipHistoryRecord(
         totalAmount: Double,
         tipAmount: Double,
@@ -21,8 +24,22 @@ internal class TipHistoryRepository @Inject constructor(
         receiptBitmap: Bitmap?
     ) {
         val savedId = tipHistoryLocalDataSource.create(
-            CreateTipHistoryEntityDto(totalAmount, tipAmount, Calendar.getInstance().timeInMillis, currencyCode)
+            TipHistoryEntity(
+                id = 0,
+                totalAmount = totalAmount,
+                tipAmount = tipAmount,
+                currencyCode = currencyCode,
+                timestamp = currentTimeInMillis
+            )
         )
+
+        if (receiptBitmap != null) {
+            iImageStorageManager.saveImage(receiptBitmap, savedId.toString())
+        }
+    }
+
+    override fun restoreTipHistoryEntity(entity: TipHistoryEntity, receiptBitmap: Bitmap?) {
+        val savedId = tipHistoryLocalDataSource.create(entity)
 
         if (receiptBitmap != null) {
             iImageStorageManager.saveImage(receiptBitmap, savedId.toString())

@@ -1,6 +1,7 @@
 package com.example.tipjar.core.ui.tiphistory.adapter
 
 import android.view.ViewGroup
+import com.example.tipjar.core.ui.tiphistory.model.TipHistoryListItemUiData
 import com.example.tipjar.shared.ui.base.adapter.BaseRecyclerViewAdapter
 
 class TipHistoryAdapter : BaseRecyclerViewAdapter<TipHistoryItemVH, TipHistoryListItemUiData>() {
@@ -11,4 +12,7 @@ class TipHistoryAdapter : BaseRecyclerViewAdapter<TipHistoryItemVH, TipHistoryLi
     override fun onBindViewHolder(holder: TipHistoryItemVH, position: Int) {
         holder.apply(getItem(position))
     }
+
+    override fun getDiffUtilCallback(newList: List<TipHistoryListItemUiData>) =
+        TipHistoryListItemUiDataDiffCallback(newList, dataList)
 }

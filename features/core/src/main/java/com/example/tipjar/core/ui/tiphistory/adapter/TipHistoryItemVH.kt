@@ -1,10 +1,13 @@
 package com.example.tipjar.core.ui.tiphistory.adapter
 
+import android.graphics.Bitmap
 import android.view.ViewGroup
+import androidx.core.graphics.drawable.toBitmapOrNull
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.tipjar.core.R
 import com.example.tipjar.core.databinding.VhTipHistoryItemBinding
+import com.example.tipjar.core.ui.tiphistory.model.TipHistoryListItemUiData
 import com.example.tipjar.shared.ui.extensions.inflate
 
 class TipHistoryItemVH(
@@ -27,6 +30,10 @@ class TipHistoryItemVH(
                 data.onTipHistoryItemImageClick()
             }
         }
+    }
+
+    fun getCurrentTipImageIfSet() : Bitmap? {
+        return binding.ivTipImage.drawable?.toBitmapOrNull()
     }
 
 }
