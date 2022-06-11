@@ -74,12 +74,13 @@
         <item name="android:button">@drawable/outline_checkbox_button</item>
         <item name="android:background">@drawable/selectable_item_background_24</item>
         <item name="android:paddingLeft">12dp</item>
-        <item name="materialThemeOverlay">@style/ThemeOverlay.TipJar.CheckBox</item>
+        <item name="android:theme">@style/ThemeOverlay.TipJar.CheckBox</item>
+        <item name="useMaterialThemeColors">false</item>
     </style>
 
     <style name="ThemeOverlay.TipJar.CheckBox" parent="">
-        <item name="colorControlNormal">@color/outline_checkbox_default_color</item> <!-- Normal border color-->
-        <item name="colorControlActivated">@color/outline_checkbox_checked_color</item> <!-- Activated color-->
+        <item name="android:colorBackground">@color/transparent</item>
+        <item name="colorOnBackground">@color/outline_checkbox_color</item>
     </style>
 
 </resources>
