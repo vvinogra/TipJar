@@ -18,4 +18,7 @@
     <string name="one_item_deleted">1 deleted</string>
     <string name="snack_bar_undo">Undo</string>
 
+    <string name="plus_sign">+</string>
+    <string name="minus_sign">-</string>
+
 </resources>

@@ -79,18 +79,18 @@
             app:layout_constraintEnd_toStartOf="@+id/glEnd"
             app:layout_constraintStart_toStartOf="@+id/glBegin"
             app:layout_constraintTop_toBottomOf="@+id/tvEnterAmount"
-            app:prefixText="$"
             app:prefixTextAppearance="@style/TextAppearance.TipJar.Headline5"
-            app:prefixTextColor="?colorOnSecondary">
+            app:prefixTextColor="?colorOnSecondary"
+            tools:prefixText="$">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etEnterAmount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:hint="100.00"
                 android:inputType="numberDecimal"
-                android:textAppearance="@style/TextAppearance.TipJar.Headline3" />
+                android:textAppearance="@style/TextAppearance.TipJar.Headline3"
+                tools:hint="100.00" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.card.MaterialCardView
@@ -119,7 +119,7 @@
                 android:layout_marginEnd="24dp"
                 android:layout_marginBottom="12dp"
                 android:maxLength="1"
-                android:text="+"
+                android:text="@string/plus_sign"
                 android:textAppearance="@style/TextAppearance.TipJar.Headline3.BigCircularButton" />
         </com.google.android.material.card.MaterialCardView>
 
@@ -127,14 +127,14 @@
             android:id="@+id/tvPeopleAmount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="1"
             android:textAppearance="@style/TextAppearance.TipJar.Headline3"
             android:textColor="?colorOnPrimary"
             app:layout_constraintBottom_toBottomOf="@+id/mcvAddPeople"
             app:layout_constraintEnd_toStartOf="@+id/mcvMinusPeople"
             app:layout_constraintHorizontal_chainStyle="spread_inside"
             app:layout_constraintStart_toEndOf="@+id/mcvAddPeople"
-            app:layout_constraintTop_toTopOf="@+id/mcvAddPeople" />
+            app:layout_constraintTop_toTopOf="@+id/mcvAddPeople"
+            tools:text="1" />
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/mcvMinusPeople"
@@ -162,7 +162,7 @@
                 android:layout_marginEnd="24dp"
                 android:layout_marginBottom="12dp"
                 android:maxLength="1"
-                android:text="-"
+                android:text="@string/minus_sign"
                 android:textAppearance="@style/TextAppearance.TipJar.Headline3.BigCircularButton" />
         </com.google.android.material.card.MaterialCardView>
 
@@ -199,9 +199,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:hint="10"
                 android:inputType="number"
-                android:textAppearance="@style/TextAppearance.TipJar.Headline3" />
+                android:textAppearance="@style/TextAppearance.TipJar.Headline3"
+                tools:hint="10" />
 
         </com.google.android.material.textfield.TextInputLayout>
 

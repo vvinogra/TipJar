@@ -107,6 +107,7 @@ class TipSplitterFragment : BaseFragment(R.layout.fragment_tip_splitter) {
                 data.totalAmountHintValue,
                 false
             )
+            tlEnterAmount.prefixText = data.currencySymbol
 
             etEnterAmount.filters = arrayOf(DecimalDigitsInputFilter(data.fractionalCurrencyDigits))
             etEnterAmount.inputType = if (data.fractionalCurrencyDigits > 0) {
