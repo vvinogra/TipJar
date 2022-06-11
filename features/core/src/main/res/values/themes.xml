@@ -1,9 +1,9 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
     <style name="Theme.TipJar" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/primaryColor</item>
-        <item name="colorPrimaryVariant">@color/primaryColor</item>
+        <item name="colorPrimaryVariant">@color/primaryLightColor</item>
         <item name="colorOnPrimary">@color/primaryTextColor</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/secondaryColor</item>
@@ -12,7 +12,11 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">@color/secondaryColor</item>
 
+        <item name="android:textColorHighlight">?colorPrimaryVariant</item>
+        <item name="colorControlHighlight">@color/colorControlHighlightDark</item>
         <item name="android:windowLightStatusBar">true</item>
-        <item name="textInputOutlinedStyle">@style/TextAppearance.TipJar.TextInputLayout.OutlinedBox</item>
+        <item name="textInputOutlinedStyle">@style/Widget.TipJar.TextInputLayout.OutlinedBox</item>
+        <item name="textAppearanceButton">@style/TextAppearance.TipJar.Button</item>
+        <item name="materialButtonStyle">@style/Widget.TipJar.Button</item>
     </style>
 </resources>

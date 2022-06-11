@@ -4,7 +4,6 @@
         <item name="android:textSize">16sp</item>
         <item name="android:lineSpacingExtra">3sp</item>
         <item name="fontFamily">sans-serif-medium</item>
-        <item name="android:fontFamily">sans-serif-medium</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:letterSpacing">0.0125</item>
     </style>
@@ -13,7 +12,6 @@
         <item name="android:textSize">24sp</item>
         <item name="android:lineSpacingExtra">4sp</item>
         <item name="fontFamily">sans-serif-medium</item>
-        <item name="android:fontFamily">sans-serif-medium</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:letterSpacing">0.0125</item>
     </style>
@@ -22,7 +20,6 @@
         <item name="android:textSize">42sp</item>
         <item name="android:lineSpacingExtra">7sp</item>
         <item name="fontFamily">sans-serif-medium</item>
-        <item name="android:fontFamily">sans-serif-medium</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:letterSpacing">0.0125</item>
     </style>
@@ -33,12 +30,35 @@
 
     <style name="ShapeAppearanceOverlay.TipJar.BigCircularButton" parent="ShapeAppearanceOverlay.Material3.Button" />
 
-    <style name="TextAppearance.TipJar.TextInputLayout.OutlinedBox" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <item name="boxStrokeColor">@color/boxStrokeColor</item>
+    <style name="Widget.TipJar.TextInputLayout.OutlinedBox" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/box_stroke_color</item>
         <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.TipJar.TextInputLayout.OutlinedBox</item>
     </style>
 
+    <style name="Widget.TipJar.Button" parent="Widget.MaterialComponents.Button">
+        <item name="android:background">@drawable/button_background_gradient</item>
+        <item name="backgroundTint">@null</item>
+        <item name="materialThemeOverlay">@style/ThemeOverlay.TipJar.Button</item>
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.TipJar.Button</item>
+    </style>
+
+    <style name="TextAppearance.TipJar.Button" parent="TextAppearance.MaterialComponents.Button">
+        <item name="android:textSize">16sp</item>
+        <item name="android:lineSpacingMultiplier">1.1</item>
+        <item name="fontFamily">@font/sf_pro_display_heavy</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+    <style name="ThemeOverlay.TipJar.Button" parent="">
+        <item name="colorOnPrimary">@color/secondaryColor</item>
+        <item name="colorControlHighlight">@color/colorControlHighlightLight</item>
+    </style>
+
     <style name="ShapeAppearanceOverlay.TipJar.TextInputLayout.OutlinedBox" parent="" >
+        <item name="cornerSize">12dp</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.TipJar.Button" parent="" >
         <item name="cornerSize">12dp</item>
     </style>
 
@@ -51,15 +71,15 @@
     </style>
 
     <style name="Widget.TipJar.OutlinedCheckBox" parent="Widget.MaterialComponents.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/outline_checkbox_button</item>
+        <item name="android:background">@drawable/selectable_item_background_24</item>
+        <item name="android:paddingLeft">12dp</item>
         <item name="materialThemeOverlay">@style/ThemeOverlay.TipJar.CheckBox</item>
     </style>
 
     <style name="ThemeOverlay.TipJar.CheckBox" parent="">
-        <item name="colorControlNormal">#000</item>   <!-- normal border color change as you wish -->
-        <item name="colorControlActivated">#000</item> <!-- activated color change as you wish -->
-        <item name="colorOnSurface">@color/primaryTextColor</item>
-        <item name="colorSecondary">@color/primaryColor</item>
-        <item name="colorOnSecondary">#000</item>
+        <item name="colorControlNormal">@color/outline_checkbox_default_color</item> <!-- Normal border color-->
+        <item name="colorControlActivated">@color/outline_checkbox_checked_color</item> <!-- Activated color-->
     </style>
 
 </resources>

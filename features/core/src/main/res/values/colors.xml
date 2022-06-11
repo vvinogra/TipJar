@@ -12,9 +12,19 @@
 
     <color name="transparent">#00ffffff</color>
 
+    <color name="button_background_gradient_start_color">@color/primaryColor</color>
+    <color name="button_background_gradient_end_color">#D26E11</color>
+
+    <color name="outline_checkbox_default_color">#E5E5E5</color>
+    <color name="outline_checkbox_checked_color">#F1790A</color>
+
+    <color name="colorControlHighlightLight">#40ffffff</color>
+    <color name="colorControlHighlightDark">#40000000</color>
+
     <color name="toolbarDividerColor">#EBEBEB</color>
     <color name="outlinedButtonStrokeColor">#D2D2D2</color>
-    <color name="boxStrokeColor">#CBCBCB</color>
+    <color name="boxStrokeColorDefault">#CBCBCB</color>
+    <color name="boxShadowColor">#1A000000</color>
     <color name="gray">#7D7D7D</color>
 
     <color name="black">#FF000000</color>
