@@ -83,4 +83,12 @@
         <item name="android:colorBackground">@color/transparent</item>
         <item name="colorOnBackground">@color/outline_checkbox_color</item>
     </style>
+
+    <style name="Widget.TipJar.RadioButton" parent="Widget.MaterialComponents.CompoundButton.RadioButton">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.TipJar.RadioButton</item>
+    </style>
+
+    <style name="ThemeOverlay.TipJar.RadioButton" parent="">
+        <item name="colorSecondary">@color/primaryColor</item>
+    </style>
 </resources>

@@ -4,5 +4,6 @@ import android.net.Uri
 
 sealed class TipSplitterNavigation {
     object TipHistory: TipSplitterNavigation()
+    object ChangeCurrency: TipSplitterNavigation()
     data class TakePhotoOfReceipt(val uri: Uri): TipSplitterNavigation()
 }

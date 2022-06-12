@@ -18,5 +18,6 @@
         <item name="textInputOutlinedStyle">@style/Widget.TipJar.TextInputLayout.OutlinedBox</item>
         <item name="textAppearanceButton">@style/TextAppearance.TipJar.Button</item>
         <item name="materialButtonStyle">@style/Widget.TipJar.Button</item>
+        <item name="radioButtonStyle">@style/Widget.TipJar.RadioButton</item>
     </style>
 </resources>

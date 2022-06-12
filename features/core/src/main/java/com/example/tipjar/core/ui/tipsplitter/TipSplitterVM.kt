@@ -157,6 +157,12 @@ class TipSplitterVM @Inject constructor(
         }
     }
 
+    fun onChangeCurrencyClicked() {
+        _data.update {
+            it.copy(navigationEvent = TipSplitterNavigation.ChangeCurrency)
+        }
+    }
+
     fun navigationEventHandled() {
         _data.update {
             it.copy(navigationEvent = null)

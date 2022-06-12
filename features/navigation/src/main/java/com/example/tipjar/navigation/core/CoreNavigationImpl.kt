@@ -22,6 +22,12 @@ internal class CoreNavigationImpl @Inject constructor(): CoreNavigation {
         tipSplitterFragment.navigate(action)
     }
 
+    override fun fromTipSplitterToSelectCurrency(tipSplitterFragment: TipSplitterFragment) {
+        val action = TipSplitterFragmentDirections.actionTipSplitterFragmentToSelectCurrencyFragment()
+
+        tipSplitterFragment.navigate(action)
+    }
+
     override fun fromTipHistoryToTipDetails(
         tipHistoryFragment: TipHistoryFragment,
         tipDetailsNavValues: TipDetailsNavValues

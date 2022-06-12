@@ -88,6 +88,10 @@ class TipSplitterFragment : BaseFragment(R.layout.fragment_tip_splitter) {
                         viewModel.onTipHistoryClicked()
                         true
                     }
+                    R.id.menu_change_currency -> {
+                        viewModel.onChangeCurrencyClicked()
+                        true
+                    }
                     else -> false
                 }
             }
@@ -151,6 +155,8 @@ class TipSplitterFragment : BaseFragment(R.layout.fragment_tip_splitter) {
                 }
             TipSplitterNavigation.TipHistory ->
                 coreNavigation.fromTipSplitterToTipHistory(this)
+            TipSplitterNavigation.ChangeCurrency ->
+                coreNavigation.fromTipSplitterToSelectCurrency(this)
         }
     }
 }
