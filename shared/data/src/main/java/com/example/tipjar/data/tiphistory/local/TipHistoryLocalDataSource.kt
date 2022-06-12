@@ -15,13 +15,13 @@ internal class TipHistoryLocalDataSource @Inject constructor(
     private val tipHistoryDao: TipHistoryDao
         get() = tipDatabase.tipHistoryDao()
 
-    fun getAll(): List<TipHistoryEntity> = tipHistoryDao.getAll().map { it.asTipHistoryEntity() }
+    suspend fun getAll(): List<TipHistoryEntity> = tipHistoryDao.getAll().map { it.asTipHistoryEntity() }
 
-    fun create(tipHistoryEntity: TipHistoryEntity): Int {
+    suspend fun create(tipHistoryEntity: TipHistoryEntity): Int {
         return tipHistoryDao.insert(tipHistoryEntity.asTipHistoryDbEntity()).toInt()
     }
 
-    fun removeById(id: Int) {
+    suspend fun removeById(id: Int) {
         tipHistoryDao.removeById(id)
     }
 

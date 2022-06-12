@@ -1,6 +1,5 @@
 package com.example.tipjar.core.ui.tiphistory
 
-import android.graphics.Bitmap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tipjar.core.ui.tipdetails.navigation.TipDetailsNavValues
@@ -62,11 +61,8 @@ class TipHistoryVM @Inject constructor(
                 return@launch
             }
 
-            // We need to restore an item before updating the list because
-            // we also save a bitmap of the user image in the filesystem if it exists
             tipHistoryModel.restoreTipHistoryEntity(
-                recentlyDeletedCachedItem.item.clickItem,
-                recentlyDeletedCachedItem.bitmap
+                recentlyDeletedCachedItem.item.clickItem
             )
 
             _uiData.update { data ->
@@ -89,21 +85,23 @@ class TipHistoryVM @Inject constructor(
         position: Int
     ) {
         viewModelScope.launch {
-            recentlyDeletedItem = RecentlyDeletedItemData(
-                tipHistoryListItemUiData,
-                position,
-                tipHistoryModel.getReceiptImageBitmap(tipHistoryListItemUiData.clickItem)
-            )
             _uiData.update { data ->
                 data.copy(
                     historyList = data.historyList.filterNot {
                         it.id == tipHistoryListItemUiData.id
-                    },
-                    showUndoDeleteSnackbarEvent = Unit
+                    }
                 )
             }
+            recentlyDeletedItem = RecentlyDeletedItemData(
+                tipHistoryListItemUiData,
+                position
+            )
 
             tipHistoryModel.removeTipHistoryEntity(tipHistoryListItemUiData.clickItem)
+
+            _uiData.update {
+                it.copy(showUndoDeleteSnackbarEvent = Unit)
+            }
         }
     }
 
@@ -159,7 +157,6 @@ class TipHistoryVM @Inject constructor(
 
     private data class RecentlyDeletedItemData(
         val item: TipHistoryListItemUiData,
-        val position: Int,
-        val bitmap: Bitmap?
+        val position: Int
     )
 }

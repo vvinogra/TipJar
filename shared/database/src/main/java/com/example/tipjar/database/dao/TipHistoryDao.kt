@@ -9,11 +9,11 @@ import com.example.tipjar.database.entity.TipHistoryDbEntity
 @Dao
 interface TipHistoryDao {
     @Query("SELECT * FROM ${Tables.TIP_HISTORY}")
-    fun getAll(): List<TipHistoryDbEntity>
+    suspend fun getAll(): List<TipHistoryDbEntity>
 
     @Insert
-    fun insert(tipHistoryDbEntity: TipHistoryDbEntity): Long
+    suspend fun insert(tipHistoryDbEntity: TipHistoryDbEntity): Long
 
     @Query("DELETE FROM ${Tables.TIP_HISTORY} WHERE id = :id")
-    fun removeById(id: Int)
+    suspend fun removeById(id: Int)
 }

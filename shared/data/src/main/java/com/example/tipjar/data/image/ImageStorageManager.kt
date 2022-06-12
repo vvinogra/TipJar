@@ -19,6 +19,7 @@ import javax.inject.Singleton
 private const val AUTHORITY = "com.example.tipjar.data.provider"
 
 private const val IMAGES_FOLDER = "ReceiptImages"
+private const val ORIGINAL_IMAGES_FOLDER = "Original"
 private const val THUMBNAIL_IMAGES_FOLDER = "Thumbs"
 private const val IMAGE_QUALITY = 100
 private const val THUMBNAIL_IMAGE_QUALITY = 70
@@ -116,8 +117,15 @@ internal class ImageStorageManager @Inject constructor(
         thumbnailImageFile.removeIfExist()
     }
 
+    override fun getAllImageFilenames(): Set<String> {
+        val images = getImagesFolder().listFiles() ?: emptyArray()
+        val thumbnails = getThumbnailsImageFolder().listFiles() ?: emptyArray()
+
+        return (images + thumbnails).map { it.name }.toSet()
+    }
+
     override fun clear() {
-        val imagesFolder = getImagesFolder(createIfNotExists = false)
+        val imagesFolder = getImagesParentFolder(createIfNotExists = false)
 
         if (imagesFolder.exists()) {
             imagesFolder.deleteRecursively()
@@ -152,17 +160,26 @@ internal class ImageStorageManager @Inject constructor(
         }
     }
 
-    private fun getImagesFolder(createIfNotExists: Boolean = true): File {
-        val appRootFolder = applicationContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-        val receiptImageFolder = File("$appRootFolder/$IMAGES_FOLDER")
+    private fun getImagesParentFolder(createIfNotExists: Boolean = true): File {
+        val imageRootFolder = applicationContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        val receiptImageFolder = File("$imageRootFolder/$IMAGES_FOLDER")
         if (createIfNotExists && !receiptImageFolder.exists()) {
             receiptImageFolder.mkdir()
         }
         return receiptImageFolder
     }
 
+    private fun getImagesFolder(): File {
+        val receiptFolder = getImagesParentFolder()
+        val receiptImageFolder = File("$receiptFolder/$ORIGINAL_IMAGES_FOLDER")
+        if (!receiptImageFolder.exists()) {
+            receiptImageFolder.mkdir()
+        }
+        return receiptImageFolder
+    }
+
     private fun getThumbnailsImageFolder(): File {
-        val receiptFolder = getImagesFolder()
+        val receiptFolder = getImagesParentFolder()
         val receiptThumbnailImageFolder = File("$receiptFolder/$THUMBNAIL_IMAGES_FOLDER")
         if (!receiptThumbnailImageFolder.exists()) {
             receiptThumbnailImageFolder.mkdir()

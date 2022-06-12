@@ -1,11 +1,11 @@
 package com.example.tipjar.data.tiphistory
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
 import com.example.tipjar.data.image.IImageStorageManager
 import com.example.tipjar.data.tiphistory.local.TipHistoryLocalDataSource
 import com.example.tipjar.data.tiphistory.model.TipHistoryEntity
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -13,13 +13,20 @@ import javax.inject.Singleton
 @Singleton
 internal class TipHistoryRepository @Inject constructor(
     private val tipHistoryLocalDataSource: TipHistoryLocalDataSource,
-    private val iImageStorageManager: IImageStorageManager
+    private val iImageStorageManager: IImageStorageManager,
+    coroutineScope: CoroutineScope
 ) : ITipHistoryRepository {
 
     private val currentTimeInMillis: Long
         get() = Calendar.getInstance().timeInMillis
 
-    override fun createTipHistoryRecord(
+    init {
+        coroutineScope.launch {
+            clearRemovedImages()
+        }
+    }
+
+    override suspend fun createTipHistoryRecord(
         totalAmount: Double,
         tipAmount: Double,
         currencyCode: String,
@@ -47,12 +54,8 @@ internal class TipHistoryRepository @Inject constructor(
         return iImageStorageManager.createUriToSaveOriginalImage()
     }
 
-    override fun restoreTipHistoryEntity(entity: TipHistoryEntity, receiptBitmap: Bitmap?) {
+    override suspend fun restoreTipHistoryEntity(entity: TipHistoryEntity) {
         tipHistoryLocalDataSource.create(entity)
-
-        if (receiptBitmap != null && entity.receiptImageFilename != null) {
-            iImageStorageManager.saveImage(receiptBitmap, entity.receiptImageFilename)
-        }
     }
 
     override fun getReceiptImagePath(entity: TipHistoryEntity): String? {
@@ -63,25 +66,23 @@ internal class TipHistoryRepository @Inject constructor(
         return entity.receiptImageFilename?.let { iImageStorageManager.getThumbnailImagePath(it) }
     }
 
-    override fun getFullSizedReceiptImage(entity: TipHistoryEntity): Bitmap? {
-        if (entity.receiptImageFilename == null)
-            return null
-
-        return iImageStorageManager.getImagePath(entity.receiptImageFilename)?.let {
-            BitmapFactory.decodeFile(it)
-        }
-    }
-
-    override fun removeTipHistoryRecord(entity: TipHistoryEntity) {
+    override suspend fun removeTipHistoryRecord(entity: TipHistoryEntity) {
         tipHistoryLocalDataSource.removeById(entity.id)
-
-        if (entity.receiptImageFilename != null) {
-            iImageStorageManager.removeImageIfExists(entity.receiptImageFilename)
-        }
     }
 
-    override fun getAllTipHistoryRecords(): List<TipHistoryEntity> {
+    override suspend fun getAllTipHistoryRecords(): List<TipHistoryEntity> {
         return tipHistoryLocalDataSource.getAll()
     }
 
+    private suspend fun clearRemovedImages() {
+        val tipHistoryReceiptImageFilenames = getAllTipHistoryRecords()
+            .mapNotNull { it.receiptImageFilename }
+        val allSavedImageFilenames = iImageStorageManager.getAllImageFilenames()
+
+        allSavedImageFilenames.forEach {
+            if (!tipHistoryReceiptImageFilenames.contains(it)) {
+                iImageStorageManager.removeImageIfExists(it)
+            }
+        }
+    }
 }

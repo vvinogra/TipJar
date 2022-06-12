@@ -10,5 +10,6 @@ interface IImageStorageManager {
     fun getImagePath(id: String): String?
     fun getThumbnailImagePath(id: String): String?
     fun removeImageIfExists(id: String)
+    fun getAllImageFilenames(): Set<String>
     fun clear()
 }

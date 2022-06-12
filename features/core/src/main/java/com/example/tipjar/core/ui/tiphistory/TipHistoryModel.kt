@@ -1,6 +1,5 @@
 package com.example.tipjar.core.ui.tiphistory
 
-import android.graphics.Bitmap
 import com.example.tipjar.core.ui.helper.CurrencyTextFormatter
 import com.example.tipjar.core.ui.tiphistory.model.TipHistoryUiData
 import com.example.tipjar.data.coroutines.DispatcherProvider
@@ -34,14 +33,9 @@ class TipHistoryModel @Inject constructor(
             tipHistoryRepository.removeTipHistoryRecord(tipHistoryEntity)
         }
 
-    suspend fun restoreTipHistoryEntity(entity: TipHistoryEntity, image: Bitmap?) =
+    suspend fun restoreTipHistoryEntity(entity: TipHistoryEntity) =
         withContext(dispatcherProvider.io) {
-            tipHistoryRepository.restoreTipHistoryEntity(entity, image)
-        }
-
-    suspend fun getReceiptImageBitmap(entity: TipHistoryEntity): Bitmap? =
-        withContext(dispatcherProvider.io) {
-            tipHistoryRepository.getFullSizedReceiptImage(entity)
+            tipHistoryRepository.restoreTipHistoryEntity(entity)
         }
 
     fun getReceiptImagePath(entity: TipHistoryEntity): String? =
