@@ -16,6 +16,11 @@ class TipSplitterVM @Inject constructor(
     private val tipSplitterModel: TipSplitterModel
 ) : ViewModel() {
 
+    companion object {
+        const val MIN_PERCENTAGE_VALUE = 0
+        const val MAX_PERCENTAGE_VALUE = 100
+    }
+
     private val _data = MutableStateFlow(tipSplitterModel.provideDefaultTipSplitterData())
     val uiData = _data.asStateFlow()
 

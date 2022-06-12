@@ -67,7 +67,7 @@ class TipSplitterFragment : BaseFragment(R.layout.fragment_tip_splitter) {
             mcvMinusPeople.setOnClickListener { viewModel.onMinusButtonClicked() }
 
             etTipPercentage.filters = arrayOf(
-                MinMaxInputFilter(0, 100)
+                MinMaxInputFilter(TipSplitterVM.MIN_PERCENTAGE_VALUE, TipSplitterVM.MAX_PERCENTAGE_VALUE)
             )
             etTipPercentage.doOnTextChanged { text, _, _, _ ->
                 viewModel.onTipPercentageChanged(text.toString())
@@ -102,10 +102,7 @@ class TipSplitterFragment : BaseFragment(R.layout.fragment_tip_splitter) {
                     etTipPercentage.moveCursorToEnd()
                 }
             }
-            etEnterAmount.hint = data.formatValueWithCurrencyCodeAndFractionalDigits(
-                data.totalAmountHintValue,
-                false
-            )
+            etEnterAmount.hint = data.totalAmountHintValue.formattedValue
             tlEnterAmount.prefixText = data.currencySymbol
 
             etEnterAmount.filters = arrayOf(DecimalDigitsInputFilter(data.fractionalCurrencyDigits))
@@ -125,8 +122,8 @@ class TipSplitterFragment : BaseFragment(R.layout.fragment_tip_splitter) {
             }
             etTipPercentage.hint = data.tipPercentageHintValue.toString()
 
-            tvTotalTipAmount.text = data.formatValueWithCurrencyCodeAndFractionalDigits(data.totalTip)
-            tvTipPerPersonAmount.text = data.formatValueWithCurrencyCodeAndFractionalDigits(data.perPersonTip)
+            tvTotalTipAmount.text = data.totalTip.formattedValue
+            tvTipPerPersonAmount.text = data.perPersonTip.formattedValue
 
             cbTakePhoto.isChecked = data.shouldTakePhotoOfReceipt
 
@@ -140,19 +137,6 @@ class TipSplitterFragment : BaseFragment(R.layout.fragment_tip_splitter) {
                 viewModel.cantOpenCameraToastMessageDisplayed()
             }
         }
-    }
-
-    private fun TipSplitterData.formatValueWithCurrencyCodeAndFractionalDigits(
-        value: Double,
-        useCurrencySymbol: Boolean = true
-    ) : String {
-        val template = if (useCurrencySymbol) {
-            "${currencySymbol}%.${fractionalCurrencyDigits}f"
-        } else {
-            "%.${fractionalCurrencyDigits}f"
-        }
-
-        return String.format(template, value)
     }
 
     private fun displayToastMessage(@StringRes messageId: Int) {
