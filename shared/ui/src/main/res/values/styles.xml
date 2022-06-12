@@ -83,5 +83,4 @@
         <item name="android:colorBackground">@color/transparent</item>
         <item name="colorOnBackground">@color/outline_checkbox_color</item>
     </style>
-
 </resources>
