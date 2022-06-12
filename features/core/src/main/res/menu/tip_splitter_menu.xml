@@ -6,7 +6,7 @@
         android:id="@+id/menu_change_currency"
         android:icon="@drawable/ic_baseline_swap_horiz_24"
         app:showAsAction="ifRoom"
-        android:title="@string/history" />
+        android:title="@string/change_currency" />
 
     <item
         android:id="@+id/menu_tip_history"

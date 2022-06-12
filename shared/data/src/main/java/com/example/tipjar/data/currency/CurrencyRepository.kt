@@ -40,7 +40,13 @@ internal class CurrencyRepository @Inject constructor(
     override fun getAvailableCurrencies(): Set<CurrencyItem> {
         return Currency.getAvailableCurrencies().mapNotNull {
             it.asCurrencyItem()
-        }.toSet()
+        }.toSortedSet { a, b ->
+            when {
+                (a.currencyCode < b.currencyCode) -> -1
+                (a.currencyCode > b.currencyCode) -> 1
+                else -> 0
+            }
+        }
     }
 
     private fun Currency.asCurrencyItem(): CurrencyItem {
