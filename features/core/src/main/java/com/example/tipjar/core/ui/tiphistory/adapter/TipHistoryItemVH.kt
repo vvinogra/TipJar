@@ -19,7 +19,7 @@ class TipHistoryItemVH(
     fun apply(data: TipHistoryListItemUiData) {
         with(binding) {
             tvDate.text = data.date
-            tvTipAmount.text = data.totalTipAmount
+            tvTipAmount.text = root.context.getString(R.string.tip_amount_placeholder, data.totalTipAmount)
             tvTotalAmount.text = data.totalAmount
 
             Glide.with(root.context)

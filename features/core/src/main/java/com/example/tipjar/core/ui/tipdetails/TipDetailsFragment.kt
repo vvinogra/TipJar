@@ -56,7 +56,7 @@ class TipDetailsFragment : BaseDialogFragment(R.layout.fragment_tip_details) {
     private fun displayTipDetailsUiData(data: TipDetailsNavValues) {
         with(binding) {
             tvDate.text = data.date
-            tvTipAmount.text = data.tipTotalAmount
+            tvTipAmount.text = getString(R.string.tip_amount_placeholder, data.tipTotalAmount)
             tvTotalAmount.text = data.totalAmount
 
             Glide.with(requireContext())
