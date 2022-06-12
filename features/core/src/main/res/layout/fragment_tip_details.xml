@@ -49,7 +49,10 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
+                android:ellipsize="end"
+                android:lines="1"
                 android:textAppearance="@style/TextAppearance.TipJar.Headline6"
+                app:layout_constrainedWidth="true"
                 app:layout_constraintBottom_toTopOf="@+id/tvTotalAmount"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -70,16 +73,19 @@
                 android:textAppearance="@style/TextAppearance.TipJar.Headline5"
                 app:layout_constrainedWidth="true"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/tvTipAmount"
-                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvDate"
+                app:layout_constraintWidth_max="wrap"
+                app:layout_constraintWidth_percent="0.5"
                 tools:text="$205.23" />
 
             <TextView
                 android:id="@+id/tvTipAmount"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:ellipsize="end"
                 android:lines="1"
@@ -89,9 +95,9 @@
                 app:layout_constraintBaseline_toBaselineOf="@id/tvTotalAmount"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toEndOf="@+id/tvTotalAmount"
+                app:layout_constraintWidth_max="wrap"
                 tools:text="Tip: $20.52" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
