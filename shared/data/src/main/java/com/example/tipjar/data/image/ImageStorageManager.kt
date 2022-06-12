@@ -2,36 +2,89 @@ package com.example.tipjar.data.image
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Matrix
 import android.media.ThumbnailUtils
+import android.net.Uri
+import android.os.Environment
+import androidx.core.content.FileProvider
+import androidx.exifinterface.media.ExifInterface
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.io.*
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
-private const val IMAGES_FOLDER = "TipJarImages"
+private const val AUTHORITY = "com.example.tipjar.data.provider"
+
+private const val IMAGES_FOLDER = "ReceiptImages"
 private const val THUMBNAIL_IMAGES_FOLDER = "Thumbs"
 private const val IMAGE_QUALITY = 100
 private const val THUMBNAIL_IMAGE_QUALITY = 70
-private const val THUMB_WIDTH = 53
-private const val THUMB_HEIGHT = 53
+private const val THUMB_WIDTH = 128
+private const val THUMB_HEIGHT = 128
+
+private val BITMAP_COMPRESS_FORMAT = Bitmap.CompressFormat.JPEG
 
 @Singleton
 internal class ImageStorageManager @Inject constructor(
     @ApplicationContext private val applicationContext: Context
 ) : IImageStorageManager {
+
+    override fun createUriToSaveOriginalImage(): Uri? {
+        return try {
+            val file = createImageFile() ?: return null
+
+            return FileProvider.getUriForFile(
+                applicationContext,
+                AUTHORITY,
+                file
+            )
+        } catch (exception: IOException) {
+            null
+        }
+    }
+
+    private fun createImageFile(): File? {
+        // Create an image file name
+        val timeStamp: String = SimpleDateFormat(
+            "yyyyMMdd_HHmmss", Locale.ROOT).format(Date())
+        val imagesStorageDir = getImagesFolder()
+
+        val prefix = "JPEG_${timeStamp}_"
+        val suffix = ".jpg"
+
+        return File.createTempFile(
+            prefix,
+            suffix,
+            imagesStorageDir
+        )
+    }
+
     override fun saveImage(bitmap: Bitmap, imageName: String): ImageSavingResult {
         return try {
-            val sceneImageFile = getImageFile(imageName)
-            val sceneThumbnailImageFile = getThumbnailImageFile(imageName)
+            val receiptImageFile = getImageFile(imageName)
+            val receiptThumbnailImageFile = getThumbnailImageFile(imageName)
 
-            val compressFormat = Bitmap.CompressFormat.PNG
-            saveBitmapToFile(bitmap, compressFormat, sceneImageFile, sceneThumbnailImageFile)
+            val compressFormat = BITMAP_COMPRESS_FORMAT
+            saveBitmapToFile(bitmap, compressFormat, receiptImageFile, receiptThumbnailImageFile)
 
-            if (sceneImageFile.exists() && sceneImageFile.length() > 0) {
-                ImageSavingResult.Success(sceneImageFile.absolutePath)
+            if (receiptImageFile.exists() && receiptImageFile.length() > 0) {
+                ImageSavingResult.Success(receiptImageFile.absolutePath)
             } else {
                 ImageSavingResult.Error
             }
+        } catch (exception: IOException) {
+            ImageSavingResult.Error
+        }
+    }
+
+    override fun saveImage(uri: Uri, imageName: String): ImageSavingResult {
+        return try {
+            getBitmapFromUri(uri)?.let { bitmap ->
+                saveImage(bitmap, imageName)
+            } ?: ImageSavingResult.Error
         } catch (exception: IOException) {
             ImageSavingResult.Error
         }
@@ -100,21 +153,62 @@ internal class ImageStorageManager @Inject constructor(
     }
 
     private fun getImagesFolder(createIfNotExists: Boolean = true): File {
-        val appRootFolder = applicationContext.filesDir
-        val sceneImageFolder = File("$appRootFolder/$IMAGES_FOLDER}")
-        if (createIfNotExists && !sceneImageFolder.exists()) {
-            sceneImageFolder.mkdir()
+        val appRootFolder = applicationContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        val receiptImageFolder = File("$appRootFolder/$IMAGES_FOLDER")
+        if (createIfNotExists && !receiptImageFolder.exists()) {
+            receiptImageFolder.mkdir()
         }
-        return sceneImageFolder
+        return receiptImageFolder
     }
 
     private fun getThumbnailsImageFolder(): File {
-        val sceneFolder = getImagesFolder()
-        val sceneThumbnailImageFolder = File("$sceneFolder/$THUMBNAIL_IMAGES_FOLDER")
-        if (!sceneThumbnailImageFolder.exists()) {
-            sceneThumbnailImageFolder.mkdir()
+        val receiptFolder = getImagesFolder()
+        val receiptThumbnailImageFolder = File("$receiptFolder/$THUMBNAIL_IMAGES_FOLDER")
+        if (!receiptThumbnailImageFolder.exists()) {
+            receiptThumbnailImageFolder.mkdir()
         }
-        return sceneThumbnailImageFolder
+        return receiptThumbnailImageFolder
+    }
+
+    private fun getBitmapFromUri(uri: Uri): Bitmap? {
+        val parcelFileDescriptor = applicationContext.contentResolver.openFileDescriptor(uri, "r")
+        val fileDescriptor = parcelFileDescriptor?.fileDescriptor
+        val image: Bitmap? = BitmapFactory.decodeFileDescriptor(fileDescriptor)
+        val orientedImage = image.modifyOrientation(fileDescriptor)
+        parcelFileDescriptor?.close()
+        return orientedImage
+    }
+
+    private fun Bitmap?.modifyOrientation(fileDescriptor: FileDescriptor?): Bitmap? {
+        if (this == null || fileDescriptor == null) return null
+        val exifInterface = ExifInterface(fileDescriptor)
+        return when (exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL)) {
+            ExifInterface.ORIENTATION_ROTATE_90 -> rotate(degrees = 90)
+            ExifInterface.ORIENTATION_ROTATE_180 -> rotate(degrees = 180)
+            ExifInterface.ORIENTATION_ROTATE_270 -> rotate(degrees = 270)
+            ExifInterface.ORIENTATION_FLIP_HORIZONTAL -> flip(FlipType.HORIZONTAL)
+            ExifInterface.ORIENTATION_FLIP_VERTICAL -> flip(FlipType.VERTICAL)
+            else -> this
+        }
+    }
+
+    private fun Bitmap.rotate(degrees: Int): Bitmap {
+        val matrix = Matrix()
+        matrix.postRotate(degrees.toFloat())
+        return Bitmap.createBitmap(this, 0, 0, width, height, matrix, true)
+    }
+
+    private fun Bitmap.flip(flipType: FlipType): Bitmap {
+        val matrix = Matrix()
+        when (flipType) {
+            FlipType.HORIZONTAL -> matrix.preScale(-1f, 1f)
+            FlipType.VERTICAL -> matrix.preScale(1f, -1f)
+        }
+        return Bitmap.createBitmap(this, 0, 0, width, height, matrix, true)
+    }
+
+    private enum class FlipType {
+        HORIZONTAL, VERTICAL
     }
 }
 

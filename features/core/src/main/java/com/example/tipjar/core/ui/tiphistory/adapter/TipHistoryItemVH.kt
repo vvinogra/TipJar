@@ -22,18 +22,18 @@ class TipHistoryItemVH(
             tvTipAmount.text = root.context.getString(R.string.tip_amount_placeholder, data.totalTipAmount)
             tvTotalAmount.text = data.totalAmount
 
-            Glide.with(root.context)
-                .load(data.imagePath)
-                .into(ivTipImage)
+            data.imagePath?.let {
+                Glide.with(root.context)
+                    .load(data.imagePath)
+                    .into(ivTipImage)
+            } ?: run {
+                Glide.with(root.context)
+                    .clear(ivTipImage)
+            }
 
             ivTipImage.setOnClickListener {
                 data.onTipHistoryItemImageClick()
             }
         }
     }
-
-    fun getCurrentTipImageIfSet() : Bitmap? {
-        return binding.ivTipImage.drawable?.toBitmapOrNull()
-    }
-
 }

@@ -12,12 +12,10 @@ import javax.inject.Singleton
 internal class UserPhoneFeatureManager @Inject constructor(
     @ApplicationContext private val applicationContext: Context
 ) : IUserPhoneFeatureManager {
-    override fun canOpenExternalImageCapture(): Boolean {
-        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+    override fun isCameraAvailable(): Boolean {
         val pm = applicationContext.packageManager
 
-        return pm.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY) &&
-                pm.resolveActivity(takePictureIntent, 0) != null
+        return pm.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)
     }
 
 }

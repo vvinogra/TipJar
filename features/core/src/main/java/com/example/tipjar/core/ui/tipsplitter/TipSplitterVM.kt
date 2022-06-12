@@ -1,6 +1,6 @@
 package com.example.tipjar.core.ui.tipsplitter
 
-import android.graphics.Bitmap
+import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tipjar.core.ui.tipsplitter.model.TipSplitterNavigation
@@ -20,6 +20,8 @@ class TipSplitterVM @Inject constructor(
         const val MIN_PERCENTAGE_VALUE = 0
         const val MAX_PERCENTAGE_VALUE = 100
     }
+
+    private var savedOriginalImageUri: Uri? = null
 
     private val _data = MutableStateFlow(tipSplitterModel.provideDefaultTipSplitterData())
     val uiData = _data.asStateFlow()
@@ -91,16 +93,19 @@ class TipSplitterVM @Inject constructor(
         }
     }
 
-    fun onUserTookReceiptPhoto(bitmap: Bitmap?) {
+    fun onUserTookReceiptPhoto(didUserTookPhoto: Boolean) {
         viewModelScope.launch {
-            if (bitmap == null) {
+            if (!didUserTookPhoto) {
                 // Ignoring
                 return@launch
             }
 
             val data = _data.value
 
-            tipSplitterModel.saveTipInHistory(data, bitmap)
+            val cachedSavedOriginalImageUri = savedOriginalImageUri ?: return@launch
+            savedOriginalImageUri = null
+
+            tipSplitterModel.saveTipInHistory(data, cachedSavedOriginalImageUri)
 
             _data.update {
                 it.copy(navigationEvent = TipSplitterNavigation.TipHistory)
@@ -108,14 +113,26 @@ class TipSplitterVM @Inject constructor(
         }
     }
 
+    fun onFailedToOpenExternalCameraApp() {
+        _data.update {
+            it.copy(showCantOpenCameraToast = Unit)
+        }
+    }
+
     fun onSaveButtonClicked() {
         viewModelScope.launch {
             val data = _data.value
 
+            savedOriginalImageUri = null
+
             if (data.shouldTakePhotoOfReceipt) {
                 if (tipSplitterModel.canTakePhotoOfReceipt()) {
-                    _data.update {
-                        it.copy(navigationEvent = TipSplitterNavigation.TakePhotoOfReceipt)
+                    tipSplitterModel.createUriToSaveOriginalImage()?.let { uri ->
+                        savedOriginalImageUri = uri
+
+                        _data.update {
+                            it.copy(navigationEvent = TipSplitterNavigation.TakePhotoOfReceipt(uri))
+                        }
                     }
                 } else {
                     _data.update {

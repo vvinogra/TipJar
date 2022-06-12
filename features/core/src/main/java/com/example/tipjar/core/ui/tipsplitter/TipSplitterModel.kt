@@ -1,6 +1,6 @@
 package com.example.tipjar.core.ui.tipsplitter
 
-import android.graphics.Bitmap
+import android.net.Uri
 import com.example.tipjar.core.ui.helper.CurrencyTextFormatter
 import com.example.tipjar.core.ui.tipsplitter.model.TipSplitterData
 import com.example.tipjar.core.ui.tipsplitter.model.TipSplitterFormattedDoubleValue
@@ -51,7 +51,11 @@ class TipSplitterModel @Inject constructor(
     }
 
     fun canTakePhotoOfReceipt(): Boolean {
-        return userPhoneFeatureManager.canOpenExternalImageCapture()
+        return userPhoneFeatureManager.isCameraAvailable()
+    }
+
+    fun createUriToSaveOriginalImage(): Uri? {
+        return tipHistoryRepository.createUriToSaveReceiptImage()
     }
 
     private fun getFormattedAmountWithCurrency(
@@ -68,12 +72,12 @@ class TipSplitterModel @Inject constructor(
         )
     }
 
-    suspend fun saveTipInHistory(data: TipSplitterData, bitmap: Bitmap? = null) =
+    suspend fun saveTipInHistory(data: TipSplitterData, uri: Uri? = null) =
         withContext(dispatcherProvider.io) {
             tipHistoryRepository.createTipHistoryRecord(
                 totalAmount = data.totalAmount ?: data.totalAmountHintValue.originalValue,
                 tipAmount = data.totalTip.originalValue,
-                receiptBitmap = bitmap,
+                receiptImageUri = uri,
                 currencyCode = data.currencyCode
             )
         }

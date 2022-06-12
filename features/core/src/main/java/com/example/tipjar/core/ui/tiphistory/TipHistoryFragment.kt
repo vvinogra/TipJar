@@ -14,7 +14,6 @@ import com.example.tipjar.core.R
 import com.example.tipjar.core.databinding.FragmentTipHistoryBinding
 import com.example.tipjar.core.navigation.CoreNavigation
 import com.example.tipjar.core.ui.tiphistory.adapter.TipHistoryAdapter
-import com.example.tipjar.core.ui.tiphistory.adapter.TipHistoryItemVH
 import com.example.tipjar.core.ui.tiphistory.model.TipHistoryListItemUiData
 import com.example.tipjar.core.ui.tiphistory.model.TipHistoryNavigation
 import com.example.tipjar.core.ui.tiphistory.model.TipHistoryUiData
@@ -74,9 +73,8 @@ class TipHistoryFragment: BaseFragment(R.layout.fragment_tip_history) {
 
     private fun onRemoveTipHistoryItemBySlide(viewHolder: RecyclerView.ViewHolder) {
         val position = viewHolder.bindingAdapterPosition
-        val bitmap = (viewHolder as TipHistoryItemVH).getCurrentTipImageIfSet()
 
-        viewModel.removeTipHistoryItem(tipHistoryAdapter.getItem(position), position, bitmap)
+        viewModel.removeTipHistoryItem(tipHistoryAdapter.getItem(position), position)
     }
 
     private fun undoDeleteRemovedTipHistoryItem() {

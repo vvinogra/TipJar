@@ -5,5 +5,6 @@ data class TipHistoryEntity(
     val totalAmount: Double,
     val tipAmount: Double,
     val currencyCode: String,
+    val receiptImageFilename: String?,
     val timestamp: Long
 )

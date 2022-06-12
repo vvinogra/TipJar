@@ -29,9 +29,9 @@ class TipHistoryModel @Inject constructor(
             tipHistoryRepository.getAllTipHistoryRecords()
         }
 
-    suspend fun removeTipHistoryEntityById(id: Int) =
+    suspend fun removeTipHistoryEntity(tipHistoryEntity: TipHistoryEntity) =
         withContext(dispatcherProvider.io) {
-            tipHistoryRepository.removeTipHistoryRecordById(id)
+            tipHistoryRepository.removeTipHistoryRecord(tipHistoryEntity)
         }
 
     suspend fun restoreTipHistoryEntity(entity: TipHistoryEntity, image: Bitmap?) =
@@ -39,8 +39,16 @@ class TipHistoryModel @Inject constructor(
             tipHistoryRepository.restoreTipHistoryEntity(entity, image)
         }
 
-    fun getTipHistoryImagePathById(id: Int): String? =
-        tipHistoryRepository.getTipHistoryImagePathById(id)
+    suspend fun getReceiptImageBitmap(entity: TipHistoryEntity): Bitmap? =
+        withContext(dispatcherProvider.io) {
+            tipHistoryRepository.getFullSizedReceiptImage(entity)
+        }
+
+    fun getReceiptImagePath(entity: TipHistoryEntity): String? =
+        tipHistoryRepository.getReceiptImagePath(entity)
+
+    fun getReceiptImageThumbPath(entity: TipHistoryEntity): String? =
+        tipHistoryRepository.getReceiptThumbImagePath(entity)
 
     fun getFormattedDateString(
         timestamp: Long

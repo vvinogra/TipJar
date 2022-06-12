@@ -1,9 +1,12 @@
 package com.example.tipjar.data.image
 
 import android.graphics.Bitmap
+import android.net.Uri
 
 interface IImageStorageManager {
+    fun createUriToSaveOriginalImage(): Uri?
     fun saveImage(bitmap: Bitmap, imageName: String): ImageSavingResult
+    fun saveImage(uri: Uri, imageName: String): ImageSavingResult
     fun getImagePath(id: String): String?
     fun getThumbnailImagePath(id: String): String?
     fun removeImageIfExists(id: String)

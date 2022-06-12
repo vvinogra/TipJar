@@ -2,7 +2,7 @@ package com.example.tipjar.core.ui.tipsplitter
 
 import android.os.Bundle
 import android.text.InputType
-import android.view.*
+import android.view.View
 import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.core.widget.doOnTextChanged
@@ -15,7 +15,7 @@ import com.example.tipjar.core.databinding.FragmentTipSplitterBinding
 import com.example.tipjar.core.navigation.CoreNavigation
 import com.example.tipjar.core.ui.tipsplitter.model.TipSplitterData
 import com.example.tipjar.core.ui.tipsplitter.model.TipSplitterNavigation
-import com.example.tipjar.core.util.activityresult.OpenCameraContract
+import com.example.tipjar.shared.ui.util.activityresult.OpenCameraContract
 import com.example.tipjar.shared.ui.base.fragment.BaseFragment
 import com.example.tipjar.shared.ui.extensions.*
 import com.example.tipjar.shared.ui.util.edittext.inputfilter.DecimalDigitsInputFilter
@@ -145,8 +145,10 @@ class TipSplitterFragment : BaseFragment(R.layout.fragment_tip_splitter) {
 
     private fun handleNavigation(navigation: TipSplitterNavigation) {
         when (navigation) {
-            TipSplitterNavigation.TakePhotoOfReceipt ->
-                startCameraActivityForResult.launchUnit()
+            is TipSplitterNavigation.TakePhotoOfReceipt ->
+                startCameraActivityForResult.safeLaunch(navigation.uri) {
+                    viewModel.onFailedToOpenExternalCameraApp()
+                }
             TipSplitterNavigation.TipHistory ->
                 coreNavigation.fromTipSplitterToTipHistory(this)
         }

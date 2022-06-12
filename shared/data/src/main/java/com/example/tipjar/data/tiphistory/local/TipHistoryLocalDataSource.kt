@@ -31,6 +31,7 @@ internal class TipHistoryLocalDataSource @Inject constructor(
             totalAmount = totalAmount,
             tipAmount = tipAmount,
             timestamp = timestamp,
+            receiptImageFilename = receiptImageFilename,
             currencyCode = currencyCode
         )
     }
@@ -41,6 +42,7 @@ internal class TipHistoryLocalDataSource @Inject constructor(
             totalAmount = totalAmount,
             tipAmount = tipAmount,
             timestamp = timestamp,
+            receiptImageFilename = receiptImageFilename,
             currencyCode = currencyCode
         )
     }

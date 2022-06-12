@@ -86,14 +86,13 @@ class TipHistoryVM @Inject constructor(
 
     fun removeTipHistoryItem(
         tipHistoryListItemUiData: TipHistoryListItemUiData,
-        position: Int,
-        bitmap: Bitmap?
+        position: Int
     ) {
         viewModelScope.launch {
             recentlyDeletedItem = RecentlyDeletedItemData(
                 tipHistoryListItemUiData,
                 position,
-                bitmap
+                tipHistoryModel.getReceiptImageBitmap(tipHistoryListItemUiData.clickItem)
             )
             _uiData.update { data ->
                 data.copy(
@@ -104,7 +103,7 @@ class TipHistoryVM @Inject constructor(
                 )
             }
 
-            tipHistoryModel.removeTipHistoryEntityById(tipHistoryListItemUiData.id)
+            tipHistoryModel.removeTipHistoryEntity(tipHistoryListItemUiData.clickItem)
         }
     }
 
@@ -113,17 +112,19 @@ class TipHistoryVM @Inject constructor(
             val totalAmount = it.getFormattedTotalAmount()
             val totalTipAmount = it.getFormattedTipTotalAmount()
             val date = tipHistoryModel.getFormattedDateString(it.timestamp)
-            val imagePath = tipHistoryModel.getTipHistoryImagePathById(it.id)
+
+            val fullSizedImagePath = tipHistoryModel.getReceiptImagePath(it)
+            val thumbImagePath = tipHistoryModel.getReceiptImageThumbPath(it)
 
             TipHistoryListItemUiData(
                 id = it.id,
                 date = date,
                 totalAmount = totalAmount,
                 totalTipAmount = totalTipAmount,
-                imagePath = imagePath,
+                imagePath = thumbImagePath,
                 clickItem = it,
                 onTipHistoryItemImageClick = {
-                    if (imagePath == null) return@TipHistoryListItemUiData
+                    if (fullSizedImagePath == null) return@TipHistoryListItemUiData
 
                     _uiData.update { uiData ->
                         uiData.copy(
@@ -132,7 +133,7 @@ class TipHistoryVM @Inject constructor(
                                     date = date,
                                     totalAmount = totalAmount,
                                     tipTotalAmount = totalTipAmount,
-                                    imagePath = imagePath
+                                    imagePath = fullSizedImagePath
                                 )
                             )
                         )
