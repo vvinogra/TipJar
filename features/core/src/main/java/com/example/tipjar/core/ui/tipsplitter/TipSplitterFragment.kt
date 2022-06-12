@@ -6,7 +6,6 @@ import android.view.*
 import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.core.widget.doOnTextChanged
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -136,9 +135,9 @@ class TipSplitterFragment : BaseFragment(R.layout.fragment_tip_splitter) {
                 viewModel.navigationEventHandled()
             }
 
-            data.toastMessage?.let {
-                displayToastMessage(it)
-                viewModel.toastMessageDisplayed()
+            data.showCantOpenCameraToast?.let {
+                displayToastMessage(R.string.can_not_take_photo_of_receipt_toast)
+                viewModel.cantOpenCameraToastMessageDisplayed()
             }
         }
     }

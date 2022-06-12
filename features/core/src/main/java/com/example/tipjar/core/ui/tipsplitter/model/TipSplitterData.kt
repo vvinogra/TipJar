@@ -1,7 +1,5 @@
 package com.example.tipjar.core.ui.tipsplitter.model
 
-import androidx.annotation.StringRes
-
 data class TipSplitterData(
     val tipPercentage: Int?,
     val tipPercentageHintValue: Int,
@@ -14,6 +12,6 @@ data class TipSplitterData(
     val currencyCode: String,
     val fractionalCurrencyDigits: Int,
     val currencySymbol: String,
-    @StringRes val toastMessage: Int?,
+    val showCantOpenCameraToast: Unit?,
     val navigationEvent: TipSplitterNavigation?
 )
