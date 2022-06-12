@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.SharedFlow
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.math.max
 
 private const val DEFAULT_CURRENCY_CODE = "USD"
 
@@ -27,7 +28,13 @@ internal class CurrencyRepository @Inject constructor(
     override fun getSelectedCurrency(): CurrencyItem {
         val currencyCode = appSharedPref.getSelectedCurrencyId() ?: DEFAULT_CURRENCY_CODE
 
-        return getCurrencyItemFromCode(currencyCode)
+        return this.getCurrencyItemFromCode(currencyCode)
+    }
+
+    override fun getCurrencyItemFromCode(code: String): CurrencyItem {
+        val currency = Currency.getInstance(code)
+
+        return currency.asCurrencyItem()
     }
 
     override fun getAvailableCurrencies(): Set<CurrencyItem> {
@@ -36,18 +43,13 @@ internal class CurrencyRepository @Inject constructor(
         }.toSet()
     }
 
-    private fun getCurrencyItemFromCode(code: String) : CurrencyItem {
-        val currency = Currency.getInstance(code)
-
-        return currency.asCurrencyItem()
-    }
-
     private fun Currency.asCurrencyItem(): CurrencyItem {
         return CurrencyItem(
             currencyCode = currencyCode,
             symbol = symbol,
             displayName = displayName,
-            defaultFractionDigits = defaultFractionDigits
+            // Some currencies may have a negative [defaultFractionDigits] value
+            defaultFractionDigits = max(defaultFractionDigits, 0)
         )
     }
 }

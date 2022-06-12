@@ -67,7 +67,7 @@ class TipSplitterFragment : BaseFragment(R.layout.fragment_tip_splitter) {
             mcvMinusPeople.setOnClickListener { viewModel.onMinusButtonClicked() }
 
             etTipPercentage.filters = arrayOf(
-                MinMaxInputFilter(TipSplitterVM.MIN_PERCENTAGE_VALUE, TipSplitterVM.MAX_PERCENTAGE_VALUE)
+                MinMaxInputFilter(MIN_PERCENTAGE_VALUE, MAX_PERCENTAGE_VALUE)
             )
             etTipPercentage.doOnTextChanged { text, _, _, _ ->
                 viewModel.onTipPercentageChanged(text.toString())
@@ -107,10 +107,12 @@ class TipSplitterFragment : BaseFragment(R.layout.fragment_tip_splitter) {
                 }
             }
             etEnterAmount.hint = data.totalAmountHintValue.formattedValue
-            tlEnterAmount.prefixText = data.currencySymbol
+            tlEnterAmount.prefixText = data.selectedCurrency.symbol
 
-            etEnterAmount.filters = arrayOf(DecimalDigitsInputFilter(data.fractionalCurrencyDigits))
-            etEnterAmount.inputType = if (data.fractionalCurrencyDigits > 0) {
+            etEnterAmount.filters = arrayOf(
+                DecimalDigitsInputFilter(data.selectedCurrency.defaultFractionDigits)
+            )
+            etEnterAmount.inputType = if (data.selectedCurrency.defaultFractionDigits > 0) {
                 InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL
             } else {
                 InputType.TYPE_CLASS_NUMBER

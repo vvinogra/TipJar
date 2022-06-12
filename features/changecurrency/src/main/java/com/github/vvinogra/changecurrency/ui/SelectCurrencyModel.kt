@@ -15,9 +15,12 @@ class SelectCurrencyModel @Inject constructor(
     fun provideDefaultSelectCurrencyData(): SelectCurrencyData {
         return SelectCurrencyData(
             currencyList = emptyList(),
-            selectedCurrency = null
+            selectedCurrency = getSelectedCurrencyItem()
         )
     }
+
+    fun getSelectedCurrencyItem() =
+        currencyRepository.getSelectedCurrency()
 
     suspend fun selectCurrencyItem(currencyItem: CurrencyItem) {
         withContext(dispatcherProvider.io) {

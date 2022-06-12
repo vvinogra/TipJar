@@ -4,5 +4,5 @@ import com.example.tipjar.data.currency.model.CurrencyItem
 
 data class SelectCurrencyData(
     val currencyList: List<CurrencyListItemUiData>,
-    val selectedCurrency: CurrencyItem?
+    val selectedCurrency: CurrencyItem
 )

@@ -8,5 +8,6 @@ interface ICurrencyRepository {
 
     suspend fun selectCurrency(currencyItem: CurrencyItem)
     fun getSelectedCurrency(): CurrencyItem
+    fun getCurrencyItemFromCode(code: String): CurrencyItem
     fun getAvailableCurrencies(): Set<CurrencyItem>
 }

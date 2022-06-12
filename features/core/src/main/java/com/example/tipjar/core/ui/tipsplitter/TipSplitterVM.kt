@@ -7,24 +7,34 @@ import com.example.tipjar.core.ui.tipsplitter.model.TipSplitterNavigation
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
+const val MIN_PERCENTAGE_VALUE = 0
+const val MAX_PERCENTAGE_VALUE = 100
 
 @HiltViewModel
 class TipSplitterVM @Inject constructor(
     private val tipSplitterModel: TipSplitterModel
 ) : ViewModel() {
 
-    companion object {
-        const val MIN_PERCENTAGE_VALUE = 0
-        const val MAX_PERCENTAGE_VALUE = 100
-    }
-
     private var savedOriginalImageUri: Uri? = null
 
     private val _data = MutableStateFlow(tipSplitterModel.provideDefaultTipSplitterData())
     val uiData = _data.asStateFlow()
+
+    init {
+        viewModelScope.launch {
+            tipSplitterModel.currencySelectionUpdatedFlow
+                .collectLatest {
+                    _data.update { data ->
+                        data.copy(selectedCurrency = it)
+                    }
+                }
+        }
+    }
 
     fun onTotalAmountChanged(text: String) {
         val newTotalAmount = text.toDoubleOrNull()

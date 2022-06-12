@@ -5,29 +5,34 @@ import com.example.tipjar.core.ui.helper.CurrencyTextFormatter
 import com.example.tipjar.core.ui.tipsplitter.model.TipSplitterData
 import com.example.tipjar.core.ui.tipsplitter.model.TipSplitterFormattedDoubleValue
 import com.example.tipjar.data.coroutines.DispatcherProvider
+import com.example.tipjar.data.currency.ICurrencyRepository
+import com.example.tipjar.data.currency.model.CurrencyItem
 import com.example.tipjar.data.phonefeature.IUserPhoneFeatureManager
 import com.example.tipjar.data.tiphistory.ITipHistoryRepository
 import kotlinx.coroutines.withContext
-import java.util.*
 import javax.inject.Inject
-import kotlin.math.max
 
+private const val DEFAULT_TIP_PERCENTAGE = 10
+private const val DEFAULT_PEOPLE_COUNT = 1
+private const val DEFAULT_TOTAL_AMOUNT = 100.0
 
 class TipSplitterModel @Inject constructor(
     private val tipHistoryRepository: ITipHistoryRepository,
+    private val currencyRepository: ICurrencyRepository,
     private val userPhoneFeatureManager: IUserPhoneFeatureManager,
     private val currencyTextFormatter: CurrencyTextFormatter,
     private val dispatcherProvider: DispatcherProvider
 ) {
+    val currencySelectionUpdatedFlow = currencyRepository.currencySelectionUpdatedFlow
+
     fun provideDefaultTipSplitterData(): TipSplitterData {
-        val tipPercentage = 10
-        val peopleCount = 1
-        val totalAmount = 100.0
+        val tipPercentage = DEFAULT_TIP_PERCENTAGE
+        val peopleCount = DEFAULT_PEOPLE_COUNT
+        val totalAmount = DEFAULT_TOTAL_AMOUNT
 
         val tipCalculationResult = calculateTip(totalAmount, peopleCount, tipPercentage)
 
-        val defaultCurrencyCode = "USD"
-        val currency = Currency.getInstance(defaultCurrencyCode)
+        val selectedCurrency = currencyRepository.getSelectedCurrency()
 
         return TipSplitterData(
             tipPercentage = tipPercentage,
@@ -35,16 +40,13 @@ class TipSplitterModel @Inject constructor(
             peopleCount = peopleCount,
             totalAmount = null,
             totalAmountHintValue = totalAmount.asTipSplitterFormattedDoubleValue(
-                currencyCode = defaultCurrencyCode,
+                currencyItem = selectedCurrency,
                 useCurrencySymbol = false
             ),
-            totalTip = tipCalculationResult.total.asTipSplitterFormattedDoubleValue(defaultCurrencyCode),
-            perPersonTip = tipCalculationResult.perPerson.asTipSplitterFormattedDoubleValue(defaultCurrencyCode),
+            totalTip = tipCalculationResult.total.asTipSplitterFormattedDoubleValue(selectedCurrency),
+            perPersonTip = tipCalculationResult.perPerson.asTipSplitterFormattedDoubleValue(selectedCurrency),
             shouldTakePhotoOfReceipt = false,
-            currencyCode = defaultCurrencyCode,
-            // Some currencies may have a negative [defaultFractionDigits] value
-            fractionalCurrencyDigits = max(currency.defaultFractionDigits, 0),
-            currencySymbol = currency.symbol,
+            selectedCurrency = selectedCurrency,
             showCantOpenCameraToast = null,
             navigationEvent = null
         )
@@ -60,14 +62,12 @@ class TipSplitterModel @Inject constructor(
 
     private fun getFormattedAmountWithCurrency(
         value: Double,
-        currencyCode: String,
+        currencyItem: CurrencyItem,
         useCurrencySymbol: Boolean
     ): String {
-        val currency = Currency.getInstance(currencyCode)
-
         return currencyTextFormatter.formatValueWithCurrencyCodeAndFractionalDigits(
             value,
-            currency,
+            currencyItem,
             useCurrencySymbol
         )
     }
@@ -78,7 +78,7 @@ class TipSplitterModel @Inject constructor(
                 totalAmount = data.totalAmount ?: data.totalAmountHintValue.originalValue,
                 tipAmount = data.totalTip.originalValue,
                 receiptImageUri = uri,
-                currencyCode = data.currencyCode
+                currencyCode = data.selectedCurrency.currencyCode
             )
         }
 
@@ -112,8 +112,8 @@ class TipSplitterModel @Inject constructor(
             tipPercentage = tipPercentageToUpdate,
             peopleCount = peopleCountToUpdate,
             totalAmount = totalAmountToUpdate,
-            totalTip = tipCalculationResult.total.asTipSplitterFormattedDoubleValue(data.currencyCode),
-            perPersonTip = tipCalculationResult.perPerson.asTipSplitterFormattedDoubleValue(data.currencyCode)
+            totalTip = tipCalculationResult.total.asTipSplitterFormattedDoubleValue(data.selectedCurrency),
+            perPersonTip = tipCalculationResult.perPerson.asTipSplitterFormattedDoubleValue(data.selectedCurrency)
         )
     }
 
@@ -129,12 +129,12 @@ class TipSplitterModel @Inject constructor(
     }
 
     private fun Double.asTipSplitterFormattedDoubleValue(
-        currencyCode: String,
+        currencyItem: CurrencyItem,
         useCurrencySymbol: Boolean = true
     ): TipSplitterFormattedDoubleValue {
         return TipSplitterFormattedDoubleValue(
             originalValue = this,
-            formattedValue = getFormattedAmountWithCurrency(this, currencyCode, useCurrencySymbol)
+            formattedValue = getFormattedAmountWithCurrency(this, currencyItem, useCurrencySymbol)
         )
     }
 

@@ -1,6 +1,6 @@
 package com.example.tipjar.core.ui.helper
 
-import java.util.*
+import com.example.tipjar.data.currency.model.CurrencyItem
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.math.max
@@ -10,13 +10,13 @@ class CurrencyTextFormatter @Inject constructor() {
 
     fun formatValueWithCurrencyCodeAndFractionalDigits(
         value: Double,
-        currency: Currency,
+        currencyItem: CurrencyItem,
         useCurrencySymbol: Boolean = true
     ) : String {
-        val fractionalCurrencyDigits = max(currency.defaultFractionDigits, 0)
+        val fractionalCurrencyDigits = max(currencyItem.defaultFractionDigits, 0)
 
         val template = if (useCurrencySymbol) {
-            "${currency.symbol}%.${fractionalCurrencyDigits}f"
+            "${currencyItem.symbol}%.${fractionalCurrencyDigits}f"
         } else {
             "%.${fractionalCurrencyDigits}f"
         }

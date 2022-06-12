@@ -1,10 +1,10 @@
 package com.github.vvinogra.changecurrency.ui.adapter
 
 import android.view.ViewGroup
-import com.example.tipjar.shared.ui.base.adapter.PreserveScrollPositionRecyclerViewAdapter
+import com.example.tipjar.shared.ui.base.adapter.BaseRecyclerViewAdapter
 import com.github.vvinogra.changecurrency.ui.model.CurrencyListItemUiData
 
-class CurrencyAdapter : PreserveScrollPositionRecyclerViewAdapter<CurrencyItemVH, CurrencyListItemUiData>() {
+class CurrencyAdapter : BaseRecyclerViewAdapter<CurrencyItemVH, CurrencyListItemUiData>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CurrencyItemVH {
         return CurrencyItemVH(parent)
     }

@@ -22,7 +22,11 @@ class SelectCurrencyVM @Inject constructor(
             val currencies = selectCurrencyModel.loadCurrencies()
 
             _selectCurrencyUiData.update {
-                it.copy(currencyList = currencies.asCurrencyListItemUiDataList(null))
+                it.copy(
+                    currencyList = currencies.asCurrencyListItemUiDataList(
+                        selectCurrencyModel.getSelectedCurrencyItem()
+                    )
+                )
             }
         }
     }
@@ -35,30 +39,33 @@ class SelectCurrencyVM @Inject constructor(
                 data.copy(
                     selectedCurrency = newSelectedItem,
                     currencyList = data.currencyList.map {
-                        it.copy(isSelected = it.code == newSelectedItem.currencyCode)
-                    }
+                        it.copy(
+                            isSelected = newSelectedItem.currencyCode == it.code
+                        )
+                    },
                 )
             }
         }
     }
 
     private fun Collection<CurrencyItem>.asCurrencyListItemUiDataList(
-        selectedItem: CurrencyItem?
+        selectedItem: CurrencyItem
     ) : List<CurrencyListItemUiData> {
         return map {
             CurrencyListItemUiData(
                 code = it.currencyCode,
                 symbol = it.symbol,
                 name = it.displayName,
-                isSelected = it.currencyCode == selectedItem?.currencyCode,
+                isSelected = it.currencyCode == selectedItem.currencyCode,
                 clickListener = {
-                    if (selectedItem?.currencyCode == it.currencyCode) {
+                    if (_selectCurrencyUiData.value.selectedCurrency.currencyCode == it.currencyCode) {
                         // Ignoring
                         return@CurrencyListItemUiData
                     }
 
                     updateSelectedItem(it)
-                }
+                },
+                clickData = it
             )
         }
     }
