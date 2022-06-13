@@ -15,6 +15,7 @@ import com.example.tipjar.shared.ui.base.fragment.BaseFragment
 import com.example.tipjar.shared.viewbindingdelegate.viewBinding
 import com.example.tipjar.changecurrency.ui.adapter.CurrencyAdapter
 import com.example.tipjar.changecurrency.ui.model.CurrencyListItemUiData
+import com.example.tipjar.changecurrency.ui.model.FilteredCurrencyListData
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -35,7 +36,7 @@ class SelectCurrencyFragment : BaseFragment(R.layout.fragment_select_currency) {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 with(viewModel) {
-                    launch { filteredCurrencyList.collect(::displayTipHistoryUiList) }
+                    launch { filteredCurrencyListData.collect(::handleFilteredCurrencyListData) }
                 }
             }
         }
@@ -69,6 +70,17 @@ class SelectCurrencyFragment : BaseFragment(R.layout.fragment_select_currency) {
                 )
             )
             rvCurrencies.adapter = currencyAdapter
+        }
+    }
+
+    private fun handleFilteredCurrencyListData(data: FilteredCurrencyListData) {
+        displayTipHistoryUiList(data.currencyList)
+        handleScrollToPositionEvent(data.selectedItemPosition)
+    }
+
+    private fun handleScrollToPositionEvent(position: Int?) {
+        position?.let {
+            binding.rvCurrencies.scrollToPosition(position)
         }
     }
 

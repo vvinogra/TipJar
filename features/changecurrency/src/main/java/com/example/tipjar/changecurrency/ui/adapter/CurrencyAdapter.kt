@@ -13,6 +13,17 @@ class CurrencyAdapter : BaseRecyclerViewAdapter<CurrencyItemVH, CurrencyListItem
         holder.apply(getItem(position))
     }
 
+    override fun onBindViewHolder(
+        holder: CurrencyItemVH,
+        position: Int,
+        payloads: MutableList<Any>
+    ) {
+        when {
+            payloads.contains(CURRENCY_SELECTED_PAYLOAD) -> holder.setSelected(getItem(position).isSelected)
+            else -> super.onBindViewHolder(holder, position, payloads)
+        }
+    }
+
     override fun getDiffUtilCallback(newList: List<CurrencyListItemUiData>) =
         CurrencyListItemUiDataDiffCallback(newList, dataList)
 }

@@ -1,6 +1,6 @@
 package com.example.tipjar.changecurrency.ui
 
-import com.example.tipjar.changecurrency.ui.model.CurrencyListItemUiData
+import com.example.tipjar.changecurrency.ui.model.FilteredCurrencyListData
 import com.example.tipjar.data.coroutines.DispatcherProvider
 import com.example.tipjar.data.currency.ICurrencyRepository
 import com.example.tipjar.data.currency.model.CurrencyItem
@@ -18,16 +18,17 @@ class SelectCurrencyModel @Inject constructor(
         return SelectCurrencyData(
             currencyList = emptyList(),
             searchQuery = "",
-            selectedCurrency = getSelectedCurrencyItem()
+            selectedCurrency = getSelectedCurrencyItem(),
+            selectedItemPosition = null
         )
     }
 
-    fun getFilteredCurrencyTransformedFlow(
+    fun getFilteredCurrencyListDataTransformedFlow(
         originalFlow: StateFlow<SelectCurrencyData>
-    ): Flow<List<CurrencyListItemUiData>> {
-        return originalFlow.transform { data ->
+    ): Flow<FilteredCurrencyListData> =
+        originalFlow.transform { data ->
             if (data.searchQuery.isEmpty()) {
-                emit(data.currencyList)
+                emit(FilteredCurrencyListData(data.currencyList, data.selectedItemPosition))
                 return@transform
             }
 
@@ -37,10 +38,9 @@ class SelectCurrencyModel @Inject constructor(
                 it.name.trim().lowercase().contains(query)
             }
 
-            emit(filteredList)
+            emit(FilteredCurrencyListData(filteredList, data.selectedItemPosition))
         }.distinctUntilChanged()
             .flowOn(dispatcherProvider.io)
-    }
 
     fun getSelectedCurrencyItem() =
         currencyRepository.getSelectedCurrency()

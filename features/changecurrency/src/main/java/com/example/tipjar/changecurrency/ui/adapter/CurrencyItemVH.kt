@@ -25,11 +25,11 @@ class CurrencyItemVH(
                 data.symbol
             )
 
-            setChecked(data.isSelected)
+            setSelected(data.isSelected)
         }
     }
 
-    private fun setChecked(isSelected: Boolean) {
+    fun setSelected(isSelected: Boolean) {
         binding.rbCurrency.isChecked = isSelected
     }
 }

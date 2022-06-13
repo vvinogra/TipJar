@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tipjar.data.currency.model.CurrencyItem
 import com.example.tipjar.changecurrency.ui.model.CurrencyListItemUiData
+import com.example.tipjar.changecurrency.ui.model.SelectCurrencyData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
@@ -18,19 +19,19 @@ class SelectCurrencyVM @Inject constructor(
 ) : ViewModel() {
     private val _selectCurrencyUiData = MutableStateFlow(selectCurrencyModel.provideDefaultSelectCurrencyData())
 
-    val filteredCurrencyList = selectCurrencyModel.getFilteredCurrencyTransformedFlow(
-        _selectCurrencyUiData
-    )
+    val filteredCurrencyListData =
+        selectCurrencyModel.getFilteredCurrencyListDataTransformedFlow(_selectCurrencyUiData)
 
     init {
         viewModelScope.launch {
             val currencies = selectCurrencyModel.loadCurrencies()
+            val selectedCurrencyItem = selectCurrencyModel.getSelectedCurrencyItem()
 
-            _selectCurrencyUiData.update {
-                it.copy(
-                    currencyList = currencies.asCurrencyListItemUiDataList(
-                        selectCurrencyModel.getSelectedCurrencyItem()
-                    )
+            _selectCurrencyUiData.update { data ->
+                getUpdatedSelectCurrencyDataWithCurrencyList(
+                    data,
+                    selectedCurrencyItem,
+                    currencies.asCurrencyListItemUiDataList(selectedCurrencyItem)
                 )
             }
         }
@@ -51,16 +52,31 @@ class SelectCurrencyVM @Inject constructor(
             selectCurrencyModel.selectCurrencyItem(newSelectedItem)
 
             _selectCurrencyUiData.update { data ->
-                data.copy(
-                    selectedCurrency = newSelectedItem,
-                    currencyList = data.currencyList.map {
+                getUpdatedSelectCurrencyDataWithCurrencyList(
+                    originalData = data,
+                    newSelectedCurrency = newSelectedItem,
+                    newCurrencyList = data.currencyList.map {
                         it.copy(
                             isSelected = newSelectedItem.currencyCode == it.code
                         )
-                    },
+                    }
                 )
             }
         }
+    }
+
+    private fun getUpdatedSelectCurrencyDataWithCurrencyList(
+        originalData: SelectCurrencyData,
+        newSelectedCurrency: CurrencyItem,
+        newCurrencyList: List<CurrencyListItemUiData>
+    ): SelectCurrencyData {
+        return originalData.copy(
+            selectedCurrency = newSelectedCurrency,
+            currencyList = newCurrencyList,
+            selectedItemPosition = newCurrencyList.indexOfFirst {
+                it.code == newSelectedCurrency.currencyCode
+            }
+        )
     }
 
     private fun Collection<CurrencyItem>.asCurrencyListItemUiDataList(
