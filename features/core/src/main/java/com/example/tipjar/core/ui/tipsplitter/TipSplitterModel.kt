@@ -87,11 +87,15 @@ class TipSplitterModel @Inject constructor(
                     data.totalAmount.value
                 }
 
-            val updatedTotalAmountUserInput =
+            // Updates the user input only if we need to shrink it, otherwise leaves it untouched
+            val updatedTotalAmountUserInput = if (newCurrencyItem.defaultFractionDigits < data.selectedCurrency.defaultFractionDigits) {
                 updatedTotalAmount?.asTipSplitterFormattedDoubleValue(
                     currencyItem = newCurrencyItem,
                     useCurrencySymbol = false
                 )?.formattedValue.orEmpty()
+            } else {
+                data.totalAmount.userInput
+            }
 
             copy(
                 totalAmount = TipSplitterUserInputData(
