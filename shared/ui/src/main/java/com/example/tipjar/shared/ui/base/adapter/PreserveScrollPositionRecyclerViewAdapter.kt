@@ -4,8 +4,8 @@ import androidx.recyclerview.widget.RecyclerView
 
 /**
  * According to this answer - https://stackoverflow.com/a/44053550/11540133.
- * We can keep the scroll position by calling [RecyclerView.LayoutManager.onSaveInstanceState]
- * and [RecyclerView.LayoutManager.onRestoreInstanceState] functions.
+ * We can keep the scroll position during Configuration Change by calling
+ * [RecyclerView.LayoutManager.onSaveInstanceState] and [RecyclerView.LayoutManager.onRestoreInstanceState] functions.
  */
 abstract class PreserveScrollPositionRecyclerViewAdapter<VH : RecyclerView.ViewHolder, T>
     : BaseRecyclerViewAdapter<VH, T>() {

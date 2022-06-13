@@ -248,7 +248,6 @@
             android:textAppearance="@style/TextAppearance.TipJar.Headline5"
             app:layout_constrainedWidth="true"
             app:layout_constraintBottom_toBottomOf="@+id/tvTipPerPerson"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/glEnd"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintHorizontal_chainStyle="spread_inside"

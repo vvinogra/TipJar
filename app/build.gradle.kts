@@ -29,6 +29,7 @@ dependencies {
 
     implementation(Dependencies.appUiLibraries)
     implementation(Dependencies.ktxLibraries)
+    implementation(Dependencies.navigationLibraries)
 
     //Hilt
     implementation(Dependencies.DI.hilt)

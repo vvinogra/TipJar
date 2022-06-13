@@ -7,6 +7,8 @@ import androidx.room.RoomDatabase
 import com.example.tipjar.database.dao.TipJarDaos
 import com.example.tipjar.database.entity.TipHistoryDbEntity
 
+private const val DATABASE_NAME = "tip_jar_database"
+
 @Database(entities = [TipHistoryDbEntity::class], version = 1, exportSchema = false)
 abstract class TipDatabase : RoomDatabase(), TipJarDaos {
 
@@ -23,7 +25,7 @@ abstract class TipDatabase : RoomDatabase(), TipJarDaos {
                     instance = Room.databaseBuilder(
                         context.applicationContext,
                         TipDatabase::class.java,
-                        "tip_jar_database"
+                        DATABASE_NAME
                     )
                         .fallbackToDestructiveMigration()
                         .build()
