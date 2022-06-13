@@ -121,9 +121,9 @@ internal class TipSplitterModelTest {
         val tipSplitterData = getDefaultTipSplitterData()
             .copy(
                 totalAmount = TipSplitterUserInputData("100.36", 100.36),
-                totalAmountHintValue = TipSplitterFormattedDoubleValue(20.4, "20.41"),
-                totalTip = TipSplitterFormattedDoubleValue(2.4, "$2.04"),
-                perPersonTip = TipSplitterFormattedDoubleValue(2.4, "$2.04"),
+                totalAmountHintValue = TipSplitterFormattedDoubleValue(20.41, "20.41"),
+                totalTip = TipSplitterFormattedDoubleValue(2.04, "$2.04"),
+                perPersonTip = TipSplitterFormattedDoubleValue(2.04, "$2.04"),
                 selectedCurrency = previouslySelectedCurrency
             )
 
@@ -133,11 +133,11 @@ internal class TipSplitterModelTest {
 
         // THEN
         with(updatedTipSplitterData) {
-            assertEquals(totalAmount, TipSplitterUserInputData("100", 100.0))
-            assertEquals(totalAmountHintValue, TipSplitterFormattedDoubleValue(20.4, "20"))
-            assertEquals(totalTip, TipSplitterFormattedDoubleValue(2.4, "$2"))
-            assertEquals(perPersonTip, TipSplitterFormattedDoubleValue(2.4, "$2"))
-            assertEquals(selectedCurrency, newCurrencyItem)
+            assertEquals(TipSplitterUserInputData("100", 100.0), totalAmount)
+            assertEquals(TipSplitterFormattedDoubleValue(20.0, "20"), totalAmountHintValue)
+            assertEquals(TipSplitterFormattedDoubleValue(2.0, "$2"), totalTip)
+            assertEquals(TipSplitterFormattedDoubleValue(2.0, "$2"), perPersonTip)
+            assertEquals(newCurrencyItem, selectedCurrency)
         }
     }
 
@@ -166,11 +166,11 @@ internal class TipSplitterModelTest {
 
         // THEN
         with(updatedTipSplitterData) {
-            assertEquals(totalAmount, TipSplitterUserInputData("100", 100.0))
-            assertEquals(totalAmountHintValue, TipSplitterFormattedDoubleValue(20.0, "20.0"))
-            assertEquals(totalTip, TipSplitterFormattedDoubleValue(2.0, "$2.0"))
-            assertEquals(perPersonTip, TipSplitterFormattedDoubleValue(2.0, "$2.0"))
-            assertEquals(selectedCurrency, newCurrencyItem)
+            assertEquals(TipSplitterUserInputData("100", 100.0), totalAmount)
+            assertEquals(TipSplitterFormattedDoubleValue(20.0, "20.0"), totalAmountHintValue)
+            assertEquals(TipSplitterFormattedDoubleValue(2.0, "$2.0"), totalTip)
+            assertEquals(TipSplitterFormattedDoubleValue(2.0, "$2.0"), perPersonTip)
+            assertEquals(newCurrencyItem, selectedCurrency)
         }
     }
 
@@ -199,11 +199,11 @@ internal class TipSplitterModelTest {
 
         // THEN
         with(updatedTipSplitterData) {
-            assertEquals(totalAmount, TipSplitterUserInputData("100.43", 100.43))
-            assertEquals(totalAmountHintValue, TipSplitterFormattedDoubleValue(20.79, "20.79"))
-            assertEquals(totalTip, TipSplitterFormattedDoubleValue(2.07, "€2.07"))
-            assertEquals(perPersonTip, TipSplitterFormattedDoubleValue(1.03, "€1.03"))
-            assertEquals(selectedCurrency, newCurrencyItem)
+            assertEquals(TipSplitterUserInputData("100.43", 100.43), totalAmount)
+            assertEquals(TipSplitterFormattedDoubleValue(20.79, "20.79"), totalAmountHintValue)
+            assertEquals(TipSplitterFormattedDoubleValue(2.07, "€2.07"), totalTip)
+            assertEquals(TipSplitterFormattedDoubleValue(1.03, "€1.03"), perPersonTip)
+            assertEquals(newCurrencyItem, selectedCurrency)
         }
     }
 
@@ -230,11 +230,11 @@ internal class TipSplitterModelTest {
 
         // THEN
         with(updatedTipSplitterData) {
-            assertEquals(tipPercentage, 10)
-            assertEquals(peopleCount, 1)
-            assertEquals(totalAmount, TipSplitterUserInputData("200.4", 200.4))
-            assertEquals(totalTip, TipSplitterFormattedDoubleValue(20.04, "$20.04"))
-            assertEquals(perPersonTip, TipSplitterFormattedDoubleValue(20.04, "$20.04"))
+            assertEquals(10, tipPercentage)
+            assertEquals(1, peopleCount)
+            assertEquals(TipSplitterUserInputData("200.4", 200.4), totalAmount)
+            assertEquals(TipSplitterFormattedDoubleValue(20.04, "$20.04"), totalTip)
+            assertEquals(TipSplitterFormattedDoubleValue(20.04, "$20.04"), perPersonTip)
         }
     }
 
@@ -261,11 +261,11 @@ internal class TipSplitterModelTest {
 
         // THEN
         with(updatedTipSplitterData) {
-            assertEquals(tipPercentage, 10)
-            assertEquals(peopleCount, 4)
-            assertEquals(totalAmount, TipSplitterUserInputData("", null))
-            assertEquals(totalTip, TipSplitterFormattedDoubleValue(4.0, "$4.00"))
-            assertEquals(perPersonTip, TipSplitterFormattedDoubleValue(1.0, "$1.00"))
+            assertEquals(10, tipPercentage)
+            assertEquals(4, peopleCount)
+            assertEquals(TipSplitterUserInputData("", null), totalAmount)
+            assertEquals(TipSplitterFormattedDoubleValue(4.0, "$4.00"), totalTip)
+            assertEquals(TipSplitterFormattedDoubleValue(1.0, "$1.00"), perPersonTip)
         }
     }
 
@@ -292,11 +292,11 @@ internal class TipSplitterModelTest {
 
         // THEN
         with(updatedTipSplitterData) {
-            assertEquals(tipPercentage, 10)
-            assertEquals(peopleCount, 2)
-            assertEquals(totalAmount, TipSplitterUserInputData("100.00", 100.0))
-            assertEquals(totalTip, TipSplitterFormattedDoubleValue(10.00, "$10.00"))
-            assertEquals(perPersonTip, TipSplitterFormattedDoubleValue(5.0, "$5.00"))
+            assertEquals(10, tipPercentage)
+            assertEquals(2, peopleCount)
+            assertEquals(TipSplitterUserInputData("100.00", 100.0), totalAmount)
+            assertEquals(TipSplitterFormattedDoubleValue(10.00, "$10.00"), totalTip)
+            assertEquals(TipSplitterFormattedDoubleValue(5.0, "$5.00"), perPersonTip)
         }
     }
 
@@ -323,11 +323,11 @@ internal class TipSplitterModelTest {
 
         // THEN
         with(updatedTipSplitterData) {
-            assertEquals(tipPercentage, 4)
-            assertEquals(peopleCount, 2)
-            assertEquals(totalAmount, TipSplitterUserInputData("100.00", 100.0))
-            assertEquals(totalTip, TipSplitterFormattedDoubleValue(4.0, "$4.00"))
-            assertEquals(perPersonTip, TipSplitterFormattedDoubleValue(2.0, "$2.00"))
+            assertEquals(4, tipPercentage)
+            assertEquals(2, peopleCount)
+            assertEquals(TipSplitterUserInputData("100.00", 100.0), totalAmount)
+            assertEquals(TipSplitterFormattedDoubleValue(4.0, "$4.00"), totalTip)
+            assertEquals(TipSplitterFormattedDoubleValue(2.0, "$2.00"), perPersonTip)
         }
     }
 
@@ -356,11 +356,11 @@ internal class TipSplitterModelTest {
 
         // THEN
         with(updatedTipSplitterData) {
-            assertEquals(tipPercentage, null)
-            assertEquals(peopleCount, 2)
-            assertEquals(totalAmount, TipSplitterUserInputData("100.00", 100.0))
-            assertEquals(totalTip, TipSplitterFormattedDoubleValue(40.0, "$40.00"))
-            assertEquals(perPersonTip, TipSplitterFormattedDoubleValue(20.0, "$20.00"))
+            assertEquals(null, tipPercentage)
+            assertEquals(2, peopleCount)
+            assertEquals(TipSplitterUserInputData("100.00", 100.0), totalAmount)
+            assertEquals(TipSplitterFormattedDoubleValue(40.0, "$40.00"), totalTip)
+            assertEquals(TipSplitterFormattedDoubleValue(20.0, "$20.00"), perPersonTip)
         }
     }
 
