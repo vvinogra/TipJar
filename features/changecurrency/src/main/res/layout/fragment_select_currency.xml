@@ -36,9 +36,9 @@
 
         <View
             android:id="@+id/vToolbarDivider"
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:background="@color/toolbarDividerColor"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/toolbar_divider_color"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar" />

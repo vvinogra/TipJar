@@ -9,12 +9,12 @@
         android:id="@+id/rbCurrency"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_medium_extra"
+        android:layout_margin="16dp"
         android:clickable="false"
         android:focusable="false"
         android:lines="1"
-        android:paddingStart="@dimen/margin_medium"
-        android:paddingEnd="@dimen/margin_medium"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
         android:textAppearance="@style/TextAppearance.TipJar.Headline6"
         tools:text="@string/formatted_currency" />
 

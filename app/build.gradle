@@ -4,17 +4,10 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'dagger.hilt.android.plugin'
 
 android {
-//    compileSdkVersion 32
-//    buildToolsVersion "30.0.0"
-
     defaultConfig {
         applicationId "com.example.tipjar"
-//        minSdkVersion 21
-//        targetSdkVersion 32
         versionCode 1
         versionName "1.0"
-
-//        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -23,13 +16,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-//    compileOptions {
-//        sourceCompatibility JavaVersion.VERSION_1_8
-//        targetCompatibility JavaVersion.VERSION_1_8
-//    }
-//    kotlinOptions {
-//        jvmTarget = '1.8'
-//    }
 }
 
 buildscript {

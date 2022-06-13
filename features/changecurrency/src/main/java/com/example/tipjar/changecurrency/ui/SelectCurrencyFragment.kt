@@ -9,6 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.transition.Fade
 import com.example.tipjar.changecurrency.R
 import com.example.tipjar.changecurrency.databinding.FragmentSelectCurrencyBinding
 import com.example.tipjar.shared.ui.base.fragment.BaseFragment
@@ -17,7 +18,6 @@ import com.example.tipjar.changecurrency.ui.adapter.CurrencyAdapter
 import com.example.tipjar.changecurrency.ui.model.CurrencyListItemUiData
 import com.example.tipjar.changecurrency.ui.model.FilteredCurrencyListData
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -28,6 +28,12 @@ class SelectCurrencyFragment : BaseFragment(R.layout.fragment_select_currency) {
 
     private lateinit var currencyAdapter: CurrencyAdapter
     private lateinit var searchView: SearchView
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        enterTransition = Fade()
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

@@ -18,8 +18,8 @@ abstract class CoroutinesModule {
     companion object {
         @Singleton
         @Provides
-        internal fun providesCoroutineScope(defaultDispatcherProvider: DefaultDispatcherProvider): CoroutineScope {
-            return CoroutineScope(SupervisorJob() + defaultDispatcherProvider.io)
+        internal fun providesCoroutineScope(dispatcherProvider: DispatcherProvider): CoroutineScope {
+            return CoroutineScope(SupervisorJob() + dispatcherProvider.io)
         }
     }
 

@@ -74,7 +74,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             app:expandedHintEnabled="false"
-            app:hintAnimationEnabled="false"
             app:hintEnabled="false"
             app:layout_constraintEnd_toStartOf="@+id/glEnd"
             app:layout_constraintStart_toStartOf="@+id/glBegin"
@@ -88,9 +87,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:inputType="numberDecimal"
                 android:saveEnabled="false"
                 android:textAppearance="@style/TextAppearance.TipJar.Headline3"
+                android:textColorHint="@color/edit_text_hint_color"
                 tools:hint="100.00" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -108,7 +107,7 @@
             app:layout_constraintStart_toStartOf="@+id/glBegin"
             app:layout_constraintTop_toBottomOf="@+id/tvHowManyPeople"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.TipJar.BigCircularButton"
-            app:strokeColor="@color/outlinedButtonStrokeColor"
+            app:strokeColor="@color/outline_circular_button_stroke_color"
             app:strokeWidth="1dp">
 
             <TextView
@@ -155,7 +154,7 @@
             app:layout_constraintStart_toEndOf="@+id/tvPeopleAmount"
             app:layout_constraintTop_toTopOf="@+id/mcvAddPeople"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.TipJar.BigCircularButton"
-            app:strokeColor="@color/outlinedButtonStrokeColor"
+            app:strokeColor="@color/outline_circular_button_stroke_color"
             app:strokeWidth="1dp">
 
             <TextView
@@ -195,7 +194,7 @@
             app:layout_constraintEnd_toStartOf="@+id/glEnd"
             app:layout_constraintStart_toStartOf="@+id/glBegin"
             app:layout_constraintTop_toBottomOf="@+id/tvTipPercentage"
-            app:suffixText="%"
+            app:suffixText="@string/percent_sign"
             app:suffixTextAppearance="@style/TextAppearance.TipJar.Headline5"
             app:suffixTextColor="?colorOnSecondary">
 
@@ -206,6 +205,7 @@
                 android:gravity="center"
                 android:inputType="number"
                 android:textAppearance="@style/TextAppearance.TipJar.Headline3"
+                android:textColorHint="@color/edit_text_hint_color"
                 tools:hint="10" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -305,8 +305,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:barrierDirection="bottom"
-            app:constraint_referenced_ids="mcvAddPeople,tvPeopleAmount,mcvMinusPeople"
-            tools:layout_editor_absoluteY="731dp" />
+            app:constraint_referenced_ids="mcvAddPeople,tvPeopleAmount,mcvMinusPeople" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

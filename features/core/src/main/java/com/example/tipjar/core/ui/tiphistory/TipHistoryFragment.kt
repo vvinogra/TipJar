@@ -10,6 +10,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.transition.Fade
 import com.example.tipjar.core.R
 import com.example.tipjar.core.databinding.FragmentTipHistoryBinding
 import com.example.tipjar.core.navigation.CoreNavigation
@@ -22,7 +23,6 @@ import com.example.tipjar.shared.ui.util.recyclerview.SwipeItemTouchHelperCallba
 import com.example.tipjar.shared.viewbindingdelegate.viewBinding
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -36,6 +36,12 @@ class TipHistoryFragment: BaseFragment(R.layout.fragment_tip_history) {
     private val viewModel: TipHistoryVM by viewModels()
 
     private lateinit var tipHistoryAdapter: TipHistoryAdapter
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        enterTransition = Fade()
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

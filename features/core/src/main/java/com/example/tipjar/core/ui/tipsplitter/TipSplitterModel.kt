@@ -87,14 +87,11 @@ class TipSplitterModel @Inject constructor(
                     data.totalAmount.value
                 }
 
-            val updatedTotalAmountUserInput = if (updatedTotalAmount != data.totalAmount.value) {
+            val updatedTotalAmountUserInput =
                 updatedTotalAmount?.asTipSplitterFormattedDoubleValue(
                     currencyItem = newCurrencyItem,
                     useCurrencySymbol = false
                 )?.formattedValue.orEmpty()
-            } else {
-                data.totalAmount.userInput
-            }
 
             copy(
                 totalAmount = TipSplitterUserInputData(

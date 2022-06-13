@@ -21,6 +21,7 @@
     <string name="snack_bar_undo">Undo</string>
     <string name="tip_amount_placeholder">Tip: %s</string>
 
+    <string name="percent_sign" translatable="false">%</string>
     <string name="plus_sign" translatable="false">+</string>
     <string name="minus_sign" translatable="false">-</string>
 
