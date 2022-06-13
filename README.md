@@ -4,6 +4,10 @@ Android Coding Assignment
 Please follow the instructions below to complete this portion of the interview. 
 We expect the assignment to be completed within 1 week, but if you need an extension or have any questions regarding the assignment, please notify your Bitcoin.com hiring contact. 
 
+# Added Features
+ - Swipe to delete Receipt + undo Receipt deletion
+ - Select and change currency
+ - Search currencies functionality
 
 ## Prerequisites:
 
