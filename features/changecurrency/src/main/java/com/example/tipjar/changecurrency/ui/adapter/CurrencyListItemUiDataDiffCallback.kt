@@ -1,7 +1,7 @@
-package com.github.vvinogra.changecurrency.ui.adapter
+package com.example.tipjar.changecurrency.ui.adapter
 
 import androidx.recyclerview.widget.DiffUtil
-import com.github.vvinogra.changecurrency.ui.model.CurrencyListItemUiData
+import com.example.tipjar.changecurrency.ui.model.CurrencyListItemUiData
 
 class CurrencyListItemUiDataDiffCallback(
     private val newList: List<CurrencyListItemUiData>,

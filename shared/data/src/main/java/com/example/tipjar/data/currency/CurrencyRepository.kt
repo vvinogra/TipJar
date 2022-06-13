@@ -1,9 +1,11 @@
 package com.example.tipjar.data.currency
 
 import com.example.tipjar.data.currency.model.CurrencyItem
+import com.example.tipjar.data.currency.model.SupportedCurrencyCodes
 import com.example.tipjar.sharedpref.IAppSharedPref
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
+import java.lang.IllegalArgumentException
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -38,14 +40,16 @@ internal class CurrencyRepository @Inject constructor(
     }
 
     override fun getAvailableCurrencies(): Set<CurrencyItem> {
-        return Currency.getAvailableCurrencies().mapNotNull {
-            it.asCurrencyItem()
-        }.toSortedSet { a, b ->
-            when {
-                (a.currencyCode < b.currencyCode) -> -1
-                (a.currencyCode > b.currencyCode) -> 1
-                else -> 0
-            }
+        return SupportedCurrencyCodes.values().mapNotNull {
+            getCurrencyItemFromCodeSafe(it.toString())
+        }.toSet()
+    }
+
+    private fun getCurrencyItemFromCodeSafe(code: String): CurrencyItem? {
+        return try {
+            getCurrencyItemFromCode(code)
+        } catch (e: IllegalArgumentException) {
+            null
         }
     }
 

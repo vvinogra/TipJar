@@ -91,4 +91,12 @@
     <style name="ThemeOverlay.TipJar.RadioButton" parent="">
         <item name="colorSecondary">@color/primaryColor</item>
     </style>
+
+    <style name="Widget.TipJar.SearchView" parent="Widget.AppCompat.Light.SearchView">
+        <item name="android:theme">@style/ThemeOverlay.TipJar.SearchView</item>
+    </style>
+
+    <style name="ThemeOverlay.TipJar.SearchView" parent="">
+        <item name="colorControlActivated">@color/primaryLightColor</item>
+    </style>
 </resources>

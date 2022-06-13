@@ -46,7 +46,7 @@
     </dialog>
     <fragment
         android:id="@+id/selectCurrencyFragment"
-        android:name="com.github.vvinogra.changecurrency.ui.SelectCurrencyFragment"
+        android:name="com.example.tipjar.changecurrency.ui.SelectCurrencyFragment"
         android:label="SelectCurrencyFragment"
         tools:layout="@layout/fragment_select_currency" />
 </navigation>

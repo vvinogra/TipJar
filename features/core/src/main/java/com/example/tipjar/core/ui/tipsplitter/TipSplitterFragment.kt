@@ -100,12 +100,12 @@ class TipSplitterFragment : BaseFragment(R.layout.fragment_tip_splitter) {
 
     private fun displayUiData(data: TipSplitterData) {
         with(binding) {
-            if (data.totalAmount != etEnterAmount.text().toDoubleOrNull()) {
-                data.totalAmount?.let {
-                    etEnterAmount.setText(it.toString())
-                    etTipPercentage.moveCursorToEnd()
-                }
+            val totalAmountUserInput = data.totalAmount.userInput
+            if (totalAmountUserInput != etEnterAmount.text() && totalAmountUserInput.isNotEmpty()) {
+                etEnterAmount.setText(totalAmountUserInput)
+                etEnterAmount.moveCursorToEnd()
             }
+
             etEnterAmount.hint = data.totalAmountHintValue.formattedValue
             tlEnterAmount.prefixText = data.selectedCurrency.symbol
 

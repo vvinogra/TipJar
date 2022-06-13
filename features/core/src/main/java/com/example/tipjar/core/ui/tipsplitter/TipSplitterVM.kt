@@ -4,6 +4,7 @@ import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tipjar.core.ui.tipsplitter.model.TipSplitterNavigation
+import com.example.tipjar.core.ui.tipsplitter.model.TipSplitterUserInputData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -30,23 +31,33 @@ class TipSplitterVM @Inject constructor(
             tipSplitterModel.currencySelectionUpdatedFlow
                 .collectLatest {
                     _data.update { data ->
-                        data.copy(selectedCurrency = it)
+                       tipSplitterModel.getUpdatedDataAfterCurrencyChange(data, it)
                     }
                 }
         }
     }
 
     fun onTotalAmountChanged(text: String) {
-        val newTotalAmount = text.toDoubleOrNull()
+        if (_data.value.totalAmount.userInput == text) {
+            // Ignoring
+            return
+        }
 
         updateTipSplitterAfterCalculation(
-            totalAmount = newTotalAmount,
-            setForceNullableTotalAmount = true
+            totalAmount = TipSplitterUserInputData(
+                text,
+                text.toDoubleOrNull()
+            )
         )
     }
 
     fun onTipPercentageChanged(text: String) {
         val newTipPercentage = text.toIntOrNull()
+
+        if (_data.value.tipPercentage == newTipPercentage) {
+            // Ignoring
+            return
+        }
 
         updateTipSplitterAfterCalculation(
             tipPercentage = newTipPercentage,
@@ -85,10 +96,9 @@ class TipSplitterVM @Inject constructor(
     }
 
     private fun updateTipSplitterAfterCalculation(
-        totalAmount: Double? = null,
+        totalAmount: TipSplitterUserInputData<Double?>? = null,
         peopleCount: Int? = null,
         tipPercentage: Int? = null,
-        setForceNullableTotalAmount: Boolean = false,
         setForceNullableTipPercentage: Boolean = false
     ) {
         _data.update {
@@ -97,7 +107,6 @@ class TipSplitterVM @Inject constructor(
                 totalAmount = totalAmount,
                 peopleCount = peopleCount,
                 tipPercentage = tipPercentage,
-                setForceNullableTotalAmount = setForceNullableTotalAmount,
                 setForceNullableTipPercentage = setForceNullableTipPercentage
             )
         }

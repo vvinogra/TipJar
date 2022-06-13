@@ -1,8 +1,8 @@
-package com.github.vvinogra.changecurrency.ui.adapter
+package com.example.tipjar.changecurrency.ui.adapter
 
 import android.view.ViewGroup
 import com.example.tipjar.shared.ui.base.adapter.BaseRecyclerViewAdapter
-import com.github.vvinogra.changecurrency.ui.model.CurrencyListItemUiData
+import com.example.tipjar.changecurrency.ui.model.CurrencyListItemUiData
 
 class CurrencyAdapter : BaseRecyclerViewAdapter<CurrencyItemVH, CurrencyListItemUiData>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CurrencyItemVH {

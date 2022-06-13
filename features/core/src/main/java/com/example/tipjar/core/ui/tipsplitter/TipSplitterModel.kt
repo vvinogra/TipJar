@@ -4,12 +4,14 @@ import android.net.Uri
 import com.example.tipjar.core.ui.helper.CurrencyTextFormatter
 import com.example.tipjar.core.ui.tipsplitter.model.TipSplitterData
 import com.example.tipjar.core.ui.tipsplitter.model.TipSplitterFormattedDoubleValue
+import com.example.tipjar.core.ui.tipsplitter.model.TipSplitterUserInputData
 import com.example.tipjar.data.coroutines.DispatcherProvider
 import com.example.tipjar.data.currency.ICurrencyRepository
 import com.example.tipjar.data.currency.model.CurrencyItem
 import com.example.tipjar.data.phonefeature.IUserPhoneFeatureManager
 import com.example.tipjar.data.tiphistory.ITipHistoryRepository
 import kotlinx.coroutines.withContext
+import java.math.BigDecimal
 import javax.inject.Inject
 
 private const val DEFAULT_TIP_PERCENTAGE = 10
@@ -38,7 +40,7 @@ class TipSplitterModel @Inject constructor(
             tipPercentage = tipPercentage,
             tipPercentageHintValue = tipPercentage,
             peopleCount = peopleCount,
-            totalAmount = null,
+            totalAmount = TipSplitterUserInputData("", null),
             totalAmountHintValue = totalAmount.asTipSplitterFormattedDoubleValue(
                 currencyItem = selectedCurrency,
                 useCurrencySymbol = false
@@ -75,26 +77,61 @@ class TipSplitterModel @Inject constructor(
     suspend fun saveTipInHistory(data: TipSplitterData, uri: Uri? = null) =
         withContext(dispatcherProvider.io) {
             tipHistoryRepository.createTipHistoryRecord(
-                totalAmount = data.totalAmount ?: data.totalAmountHintValue.originalValue,
+                totalAmount = data.totalAmount.value ?: data.totalAmountHintValue.originalValue,
                 tipAmount = data.totalTip.originalValue,
                 receiptImageUri = uri,
                 currencyCode = data.selectedCurrency.currencyCode
             )
         }
 
+    fun getUpdatedDataAfterCurrencyChange(
+        data: TipSplitterData,
+        newCurrencyItem: CurrencyItem
+    ) : TipSplitterData {
+        return with(data) {
+            val updatedTotalAmount =
+                if (newCurrencyItem.defaultFractionDigits != data.selectedCurrency.defaultFractionDigits) {
+                    totalAmount.value?.toBigDecimal()?.setScale(
+                        newCurrencyItem.defaultFractionDigits,
+                        BigDecimal.ROUND_DOWN
+                    )?.toDouble()
+                } else {
+                    data.totalAmount.value
+                }
+
+            val updatedTotalAmountUserInput = if (updatedTotalAmount != data.totalAmount.value) {
+                updatedTotalAmount?.asTipSplitterFormattedDoubleValue(
+                    currencyItem = newCurrencyItem,
+                    useCurrencySymbol = false
+                )?.formattedValue.orEmpty()
+            } else {
+                data.totalAmount.userInput
+            }
+
+            copy(
+                totalAmount = TipSplitterUserInputData(
+                    updatedTotalAmountUserInput,
+                    updatedTotalAmount
+                ),
+                totalAmountHintValue = totalAmountHintValue.originalValue.asTipSplitterFormattedDoubleValue(
+                    currencyItem = newCurrencyItem,
+                    useCurrencySymbol = false
+                ),
+                totalTip = data.totalTip.originalValue.asTipSplitterFormattedDoubleValue(newCurrencyItem),
+                perPersonTip = data.perPersonTip.originalValue.asTipSplitterFormattedDoubleValue(newCurrencyItem),
+                selectedCurrency = newCurrencyItem
+            )
+        }
+    }
+
     fun getUpdatedTipSplitterAfterCalculation(
         data: TipSplitterData,
-        totalAmount: Double? = null,
+        totalAmount: TipSplitterUserInputData<Double?>? = null,
         peopleCount: Int? = null,
         tipPercentage: Int? = null,
-        setForceNullableTotalAmount: Boolean = false,
         setForceNullableTipPercentage: Boolean = false
     ) : TipSplitterData {
-        val totalAmountToUpdate = if (setForceNullableTotalAmount) {
-            totalAmount
-        } else {
-            totalAmount ?: data.totalAmount
-        }
+        val totalAmountToUpdate = totalAmount ?: data.totalAmount
         val peopleCountToUpdate = peopleCount ?: data.peopleCount
         val tipPercentageToUpdate = if (setForceNullableTipPercentage) {
             tipPercentage
@@ -103,7 +140,7 @@ class TipSplitterModel @Inject constructor(
         }
 
         val tipCalculationResult = calculateTip(
-            totalAmount = totalAmountToUpdate ?: data.totalAmountHintValue.originalValue,
+            totalAmount = totalAmountToUpdate.value ?: data.totalAmountHintValue.originalValue,
             peopleCount = peopleCountToUpdate,
             tipPercentage = tipPercentageToUpdate ?: data.tipPercentageHintValue
         )

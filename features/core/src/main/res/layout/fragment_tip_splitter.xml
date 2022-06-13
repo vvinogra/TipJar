@@ -89,6 +89,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:inputType="numberDecimal"
+                android:saveEnabled="false"
                 android:textAppearance="@style/TextAppearance.TipJar.Headline3"
                 tools:hint="100.00" />
         </com.google.android.material.textfield.TextInputLayout>

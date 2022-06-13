@@ -6,7 +6,7 @@ data class TipSplitterData(
     val tipPercentage: Int?,
     val tipPercentageHintValue: Int,
     val peopleCount: Int,
-    val totalAmount: Double?,
+    val totalAmount: TipSplitterUserInputData<Double?>,
     val totalAmountHintValue: TipSplitterFormattedDoubleValue,
     val totalTip: TipSplitterFormattedDoubleValue,
     val perPersonTip: TipSplitterFormattedDoubleValue,
@@ -19,4 +19,9 @@ data class TipSplitterData(
 data class TipSplitterFormattedDoubleValue(
     val originalValue: Double,
     val formattedValue: String
+)
+
+data class TipSplitterUserInputData<T>(
+    val userInput: String,
+    val value: T
 )

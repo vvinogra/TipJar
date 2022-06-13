@@ -1,20 +1,20 @@
-package com.github.vvinogra.changecurrency.ui
+package com.example.tipjar.changecurrency.ui
 
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.tipjar.changecurrency.R
+import com.example.tipjar.changecurrency.databinding.FragmentSelectCurrencyBinding
 import com.example.tipjar.shared.ui.base.fragment.BaseFragment
 import com.example.tipjar.shared.viewbindingdelegate.viewBinding
-import com.github.vvinogra.changecurrency.R
-import com.github.vvinogra.changecurrency.databinding.FragmentSelectCurrencyBinding
-import com.github.vvinogra.changecurrency.ui.adapter.CurrencyAdapter
-import com.github.vvinogra.changecurrency.ui.model.CurrencyListItemUiData
-import com.github.vvinogra.changecurrency.ui.model.SelectCurrencyData
+import com.example.tipjar.changecurrency.ui.adapter.CurrencyAdapter
+import com.example.tipjar.changecurrency.ui.model.CurrencyListItemUiData
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -26,6 +26,7 @@ class SelectCurrencyFragment : BaseFragment(R.layout.fragment_select_currency) {
     private val viewModel: SelectCurrencyVM by viewModels()
 
     private lateinit var currencyAdapter: CurrencyAdapter
+    private lateinit var searchView: SearchView
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -34,7 +35,7 @@ class SelectCurrencyFragment : BaseFragment(R.layout.fragment_select_currency) {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 with(viewModel) {
-                    launch { selectCurrencyUiData.collect(::handleSelectCurrencyUiData) }
+                    launch { filteredCurrencyList.collect(::displayTipHistoryUiList) }
                 }
             }
         }
@@ -45,18 +46,30 @@ class SelectCurrencyFragment : BaseFragment(R.layout.fragment_select_currency) {
 
         with(binding) {
             toolbar.setNavigationOnClickListener { onBackPressed() }
+            toolbar.inflateMenu(R.menu.select_currency_menu)
+
+            searchView = toolbar.menu.findItem(R.id.menu_search).actionView as SearchView
+            searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    searchView.clearFocus()
+                    return true
+                }
+
+                override fun onQueryTextChange(newText: String): Boolean {
+                    viewModel.onSearchQueryUpdated(newText)
+                    return true
+                }
+            })
 
             rvCurrencies.layoutManager = LinearLayoutManager(requireContext())
-            rvCurrencies.addItemDecoration(DividerItemDecoration(
-                requireContext(),
-                DividerItemDecoration.VERTICAL
-            ))
+            rvCurrencies.addItemDecoration(
+                DividerItemDecoration(
+                    requireContext(),
+                    DividerItemDecoration.VERTICAL
+                )
+            )
             rvCurrencies.adapter = currencyAdapter
         }
-    }
-
-    private fun handleSelectCurrencyUiData(data: SelectCurrencyData) {
-        displayTipHistoryUiList(data.currencyList)
     }
 
     private fun displayTipHistoryUiList(list: List<CurrencyListItemUiData>) {

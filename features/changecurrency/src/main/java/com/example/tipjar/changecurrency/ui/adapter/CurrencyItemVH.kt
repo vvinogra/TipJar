@@ -1,11 +1,11 @@
-package com.github.vvinogra.changecurrency.ui.adapter
+package com.example.tipjar.changecurrency.ui.adapter
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.tipjar.changecurrency.R
+import com.example.tipjar.changecurrency.databinding.VhCurrencyItemBinding
 import com.example.tipjar.shared.ui.extensions.inflate
-import com.github.vvinogra.changecurrency.R
-import com.github.vvinogra.changecurrency.databinding.VhCurrencyItemBinding
-import com.github.vvinogra.changecurrency.ui.model.CurrencyListItemUiData
+import com.example.tipjar.changecurrency.ui.model.CurrencyListItemUiData
 
 class CurrencyItemVH(
     parent: ViewGroup
