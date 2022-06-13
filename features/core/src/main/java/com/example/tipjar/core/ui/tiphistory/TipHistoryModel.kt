@@ -40,11 +40,12 @@ class TipHistoryModel @Inject constructor(
             tipHistoryRepository.restoreTipHistoryEntity(entity)
         }
 
-    fun getReceiptImagePath(entity: TipHistoryEntity): String? =
-        tipHistoryRepository.getReceiptImagePath(entity)
-
-    fun getReceiptImageThumbPath(entity: TipHistoryEntity): String? =
-        tipHistoryRepository.getReceiptThumbImagePath(entity)
+    fun getReceiptImagePath(entity: TipHistoryEntity, thumbImage: Boolean = false): String? =
+        if (thumbImage) {
+            tipHistoryRepository.getReceiptThumbImagePath(entity)
+        } else {
+            tipHistoryRepository.getReceiptImagePath(entity)
+        }
 
     fun getFormattedDateString(
         timestamp: Long

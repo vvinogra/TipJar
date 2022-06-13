@@ -78,9 +78,9 @@ class SelectCurrencyFragment : BaseFragment(R.layout.fragment_select_currency) {
         handleScrollToPositionEvent(data.selectedItemPosition)
     }
 
-    private fun handleScrollToPositionEvent(position: Int?) {
-        position?.let {
-            binding.rvCurrencies.scrollToPosition(position)
+    private fun handleScrollToPositionEvent(position: Int) {
+        position.takeIf { it >= 0 }?.let {
+            binding.rvCurrencies.scrollToPosition(it)
         }
     }
 

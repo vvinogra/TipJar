@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tipjar.data.currency.model.CurrencyItem
 import com.example.tipjar.changecurrency.ui.model.CurrencyListItemUiData
-import com.example.tipjar.changecurrency.ui.model.SelectCurrencyData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
@@ -28,10 +27,9 @@ class SelectCurrencyVM @Inject constructor(
             val selectedCurrencyItem = selectCurrencyModel.getSelectedCurrencyItem()
 
             _selectCurrencyUiData.update { data ->
-                getUpdatedSelectCurrencyDataWithCurrencyList(
-                    data,
-                    selectedCurrencyItem,
-                    currencies.asCurrencyListItemUiDataList(selectedCurrencyItem)
+                data.copy(
+                    selectedCurrency = selectedCurrencyItem,
+                    currencyList = currencies.asCurrencyListItemUiDataList(selectedCurrencyItem)
                 )
             }
         }
@@ -52,10 +50,9 @@ class SelectCurrencyVM @Inject constructor(
             selectCurrencyModel.selectCurrencyItem(newSelectedItem)
 
             _selectCurrencyUiData.update { data ->
-                getUpdatedSelectCurrencyDataWithCurrencyList(
-                    originalData = data,
-                    newSelectedCurrency = newSelectedItem,
-                    newCurrencyList = data.currencyList.map {
+                data.copy(
+                    selectedCurrency = newSelectedItem,
+                    currencyList = data.currencyList.map {
                         it.copy(
                             isSelected = newSelectedItem.currencyCode == it.code
                         )
@@ -63,20 +60,6 @@ class SelectCurrencyVM @Inject constructor(
                 )
             }
         }
-    }
-
-    private fun getUpdatedSelectCurrencyDataWithCurrencyList(
-        originalData: SelectCurrencyData,
-        newSelectedCurrency: CurrencyItem,
-        newCurrencyList: List<CurrencyListItemUiData>
-    ): SelectCurrencyData {
-        return originalData.copy(
-            selectedCurrency = newSelectedCurrency,
-            currencyList = newCurrencyList,
-            selectedItemPosition = newCurrencyList.indexOfFirst {
-                it.code == newSelectedCurrency.currencyCode
-            }
-        )
     }
 
     private fun Collection<CurrencyItem>.asCurrencyListItemUiDataList(

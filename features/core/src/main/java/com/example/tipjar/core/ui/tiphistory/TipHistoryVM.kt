@@ -112,7 +112,10 @@ class TipHistoryVM @Inject constructor(
             val date = tipHistoryModel.getFormattedDateString(it.timestamp)
 
             val fullSizedImagePath = tipHistoryModel.getReceiptImagePath(it)
-            val thumbImagePath = tipHistoryModel.getReceiptImageThumbPath(it)
+            val thumbImagePath = tipHistoryModel.getReceiptImagePath(
+                entity = it,
+                thumbImage = true
+            )
 
             TipHistoryListItemUiData(
                 id = it.id,

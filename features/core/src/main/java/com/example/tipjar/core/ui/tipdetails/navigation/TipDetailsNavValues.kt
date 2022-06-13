@@ -1,7 +1,7 @@
 package com.example.tipjar.core.ui.tipdetails.navigation
 
 import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class TipDetailsNavValues(

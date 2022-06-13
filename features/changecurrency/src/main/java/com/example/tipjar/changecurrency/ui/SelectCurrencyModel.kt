@@ -1,5 +1,6 @@
 package com.example.tipjar.changecurrency.ui
 
+import com.example.tipjar.changecurrency.ui.model.CurrencyListItemUiData
 import com.example.tipjar.changecurrency.ui.model.FilteredCurrencyListData
 import com.example.tipjar.data.coroutines.DispatcherProvider
 import com.example.tipjar.data.currency.ICurrencyRepository
@@ -18,27 +19,27 @@ class SelectCurrencyModel @Inject constructor(
         return SelectCurrencyData(
             currencyList = emptyList(),
             searchQuery = "",
-            selectedCurrency = getSelectedCurrencyItem(),
-            selectedItemPosition = null
+            selectedCurrency = getSelectedCurrencyItem()
         )
     }
 
     fun getFilteredCurrencyListDataTransformedFlow(
-        originalFlow: StateFlow<SelectCurrencyData>
+        originalFlow: Flow<SelectCurrencyData>
     ): Flow<FilteredCurrencyListData> =
         originalFlow.transform { data ->
             if (data.searchQuery.isEmpty()) {
-                emit(FilteredCurrencyListData(data.currencyList, data.selectedItemPosition))
+                emit(data.currencyList.asFilteredCurrencyListData(data.selectedCurrency))
                 return@transform
             }
 
-            val query = data.searchQuery.trim().lowercase()
+            val query = data.searchQuery.asSearchFilterString()
 
             val filteredList = data.currencyList.filter {
-                it.name.trim().lowercase().contains(query)
+                it.name.asSearchFilterString().contains(query) ||
+                    it.code.asSearchFilterString().contains(query)
             }
 
-            emit(FilteredCurrencyListData(filteredList, data.selectedItemPosition))
+            emit(filteredList.asFilteredCurrencyListData(data.selectedCurrency))
         }.distinctUntilChanged()
             .flowOn(dispatcherProvider.io)
 
@@ -62,5 +63,20 @@ class SelectCurrencyModel @Inject constructor(
                     }
                 }
         }
+    }
+
+    private fun List<CurrencyListItemUiData>.asFilteredCurrencyListData(
+        selectedCurrencyItem: CurrencyItem
+    ): FilteredCurrencyListData {
+        return FilteredCurrencyListData(
+            currencyList = this,
+            selectedItemPosition = indexOfFirst {
+                it.code == selectedCurrencyItem.currencyCode
+            }
+        )
+    }
+
+    private fun String.asSearchFilterString(): String {
+        return this.trim().lowercase()
     }
 }

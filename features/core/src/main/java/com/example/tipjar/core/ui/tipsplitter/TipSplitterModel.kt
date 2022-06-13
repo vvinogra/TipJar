@@ -62,18 +62,6 @@ class TipSplitterModel @Inject constructor(
         return tipHistoryRepository.createUriToSaveReceiptImage()
     }
 
-    private fun getFormattedAmountWithCurrency(
-        value: Double,
-        currencyItem: CurrencyItem,
-        useCurrencySymbol: Boolean
-    ): String {
-        return currencyTextFormatter.formatValueWithCurrencyCodeAndFractionalDigits(
-            value,
-            currencyItem,
-            useCurrencySymbol
-        )
-    }
-
     suspend fun saveTipInHistory(data: TipSplitterData, uri: Uri? = null) =
         withContext(dispatcherProvider.io) {
             tipHistoryRepository.createTipHistoryRecord(
@@ -151,6 +139,18 @@ class TipSplitterModel @Inject constructor(
             totalAmount = totalAmountToUpdate,
             totalTip = tipCalculationResult.total.asTipSplitterFormattedDoubleValue(data.selectedCurrency),
             perPersonTip = tipCalculationResult.perPerson.asTipSplitterFormattedDoubleValue(data.selectedCurrency)
+        )
+    }
+
+    private fun getFormattedAmountWithCurrency(
+        value: Double,
+        currencyItem: CurrencyItem,
+        useCurrencySymbol: Boolean
+    ): String {
+        return currencyTextFormatter.formatValueWithCurrencyCodeAndFractionalDigits(
+            value,
+            currencyItem,
+            useCurrencySymbol
         )
     }
 

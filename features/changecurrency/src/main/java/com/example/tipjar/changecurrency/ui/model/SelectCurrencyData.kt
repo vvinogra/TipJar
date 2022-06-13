@@ -5,11 +5,10 @@ import com.example.tipjar.data.currency.model.CurrencyItem
 data class SelectCurrencyData(
     val currencyList: List<CurrencyListItemUiData>,
     val searchQuery: String,
-    val selectedCurrency: CurrencyItem,
-    val selectedItemPosition: Int?
+    val selectedCurrency: CurrencyItem
 )
 
 data class FilteredCurrencyListData(
     val currencyList: List<CurrencyListItemUiData>,
-    val selectedItemPosition: Int?
+    val selectedItemPosition: Int
 )

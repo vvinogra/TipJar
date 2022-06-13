@@ -13,6 +13,7 @@ class CurrencyTextFormatter @Inject constructor() {
         currencyItem: CurrencyItem,
         useCurrencySymbol: Boolean = true
     ) : String {
+        // Some currencies may have a negative [defaultFractionDigits] value
         val fractionalCurrencyDigits = max(currencyItem.defaultFractionDigits, 0)
 
         val template = if (useCurrencySymbol) {
