@@ -18,6 +18,7 @@ import com.example.tipjar.changecurrency.ui.adapter.CurrencyAdapter
 import com.example.tipjar.changecurrency.ui.model.CurrencyListItemUiData
 import com.example.tipjar.changecurrency.ui.model.FilteredCurrencyListData
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint

@@ -23,6 +23,7 @@ import com.example.tipjar.shared.ui.util.recyclerview.SwipeItemTouchHelperCallba
 import com.example.tipjar.shared.viewbindingdelegate.viewBinding
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

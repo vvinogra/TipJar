@@ -22,6 +22,7 @@ import com.example.tipjar.shared.ui.util.edittext.inputfilter.DecimalDigitsInput
 import com.example.tipjar.shared.ui.util.edittext.inputfilter.MinMaxInputFilter
 import com.example.tipjar.shared.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
